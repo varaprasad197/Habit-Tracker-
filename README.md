@@ -43,7 +43,7 @@ No installation needed — it's a single self-contained HTML file.
 2. Open `My_Tracker.html` directly in any modern browser
 3. Add your habits and start tracking!
 
-Or try it live: **[Live Demo](#)** *(add your GitHub Pages link here once enabled)*
+Or try it live: **[Live Demo](#)** *((https://varaprasad197.github.io/Habit-Tracker-/))*
 
 ### Enabling GitHub Pages (to get a live demo link)
 1. Go to your repo → **Settings → Pages**
