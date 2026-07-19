@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Vara — Track Life Like a Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Bebas+Neue&family=Oswald:wght@500;700&family=Montserrat:wght@700;800&family=Cinzel:wght@600;800&family=Anton&family=Dancing+Script:wght@600;700&family=Orbitron:wght@700;800&family=Pacifico&family=Great+Vibes&family=Poppins:wght@600;700&family=Bungee&family=Righteous&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#050301; --panel:#0f0b09; --panel2:#171009; --border:#2e1c10;
+    --text:#f7ece3; --muted:#b98a6f; --accent:#ff3b1f; --accent2:#ff9500;
+    --done:#ff5a1f; --done-glow:rgba(255,90,31,.4);
+    --c1:#ff3b1f; --c2:#ff9500; --c3:#ffce1f; --c4:#ff2e7e; --c5:#ff6fd8;
+    --font-display:'Playfair Display',Georgia,serif; --font-script:'Cormorant Garamond',Georgia,serif; --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+
+  /* ===================== FOR HIM — dark / energetic ===================== */
+  body.theme-adrenaline{
+    --bg:#050301; --panel:#0f0b09; --panel2:#171009; --border:#3a2010;
+    --text:#f7ece3; --muted:#b98a6f; --accent:#ff3b1f; --accent2:#ff9500;
+    --done:#ff5a1f; --done-glow:rgba(255,90,31,.45);
+    --c1:#ff3b1f; --c2:#ff9500; --c3:#ffce1f; --c4:#ff2e7e; --c5:#ff6fd8;
+  }
+  body.theme-midnight{
+    --bg:#050810; --panel:#0a1120; --panel2:#0e1729; --border:#1c2c4d;
+    --text:#e8f1ff; --muted:#7d93c2; --accent:#22d3ee; --accent2:#8b5cf6;
+    --done:#22d3ee; --done-glow:rgba(34,211,238,.4);
+    --c1:#22d3ee; --c2:#8b5cf6; --c3:#3d7bff; --c4:#5eead4; --c5:#a78bfa;
+  }
+  body.theme-neon{
+    --bg:#07090c; --panel:#0e1116; --panel2:#12161d; --border:#1e2a33;
+    --text:#e8fbff; --muted:#6fa9b8; --accent:#00e5ff; --accent2:#ff00e5;
+    --done:#00ffb3; --done-glow:rgba(0,255,179,.4);
+    --c1:#00e5ff; --c2:#ff00e5; --c3:#00ffb3; --c4:#7f5cff; --c5:#ff5c9e;
+  }
+  body.theme-bloodmoon{
+    --bg:#0b0507; --panel:#170a0e; --panel2:#1f0d13; --border:#3a1420;
+    --text:#f6e4e8; --muted:#b97183; --accent:#e0113d; --accent2:#7a0dff;
+    --done:#ff2952; --done-glow:rgba(255,41,82,.4);
+    --c1:#e0113d; --c2:#7a0dff; --c3:#ff2952; --c4:#c9184a; --c5:#a3117a;
+  }
+  body.theme-shadowops{
+    --bg:#0a0d08; --panel:#12160e; --panel2:#171c11; --border:#2b3320;
+    --text:#e6ecdd; --muted:#8fa377; --accent:#7fbf3f; --accent2:#c9a13b;
+    --done:#9be05a; --done-glow:rgba(155,224,90,.35);
+    --c1:#7fbf3f; --c2:#c9a13b; --c3:#9be05a; --c4:#5a8f2e; --c5:#e0c94a;
+  }
+
+  /* ===================== ANIME — distinct visual identity per series ===================== */
+  /* Solo Leveling — Shadow Monarch: void-black bleeding into violet shadow-energy, echoing the silent rise from weakest to monarch of shadows */
+  body.theme-sololeveling{
+    --bg:#07050d; --panel:#0d0916; --panel2:#150f24; --border:#2f2150;
+    --text:#ece6fb; --muted:#8b7bc4; --accent:#8b5cf6; --accent2:#c026d3;
+    --done:#a78bfa; --done-glow:rgba(167,139,250,.5);
+    --c1:#8b5cf6; --c2:#c026d3; --c3:#a78bfa; --c4:#6d28d9; --c5:#e879f9;
+  }
+  /* Naruto — Nindo Way: Konoha-leaf blue headband against fox-chakra orange, the warmth of a never-give-up ninja */
+  body.theme-naruto{
+    --bg:#0c0a06; --panel:#171008; --panel2:#20160a; --border:#42300f;
+    --text:#fff3e0; --muted:#cf9d68; --accent:#ff7b00; --accent2:#2196f3;
+    --done:#ff9012; --done-glow:rgba(255,123,0,.45);
+    --c1:#ff7b00; --c2:#2196f3; --c3:#ffb703; --c4:#0d6efd; --c5:#fb8500;
+  }
+  /* One Piece — Grand Line: deep ocean navy chasing straw-hat gold, a pirate crew's horizon of freedom and treasure */
+  body.theme-onepiece{
+    --bg:#050a14; --panel:#0a1424; --panel2:#0e1e37; --border:#1c3a63;
+    --text:#eaf4ff; --muted:#7fa8d0; --accent:#ffc300; --accent2:#e63946;
+    --done:#ffd60a; --done-glow:rgba(255,195,0,.4);
+    --c1:#ffc300; --c2:#e63946; --c3:#219ebc; --c4:#0077b6; --c5:#ffd60a;
+  }
+  /* Demon Slayer — Hinokami: checkered haori teal-black cut through with blood-demon-art red, breathe steady, strike true */
+  body.theme-demonslayer{
+    --bg:#07100e; --panel:#0c1815; --panel2:#11221c; --border:#20463b;
+    --text:#e7fbf4; --muted:#6fb09b; --accent:#0f9b8e; --accent2:#e0113d;
+    --done:#14b8a6; --done-glow:rgba(20,184,166,.45);
+    --c1:#0f9b8e; --c2:#e0113d; --c3:#14b8a6; --c4:#ff6b35; --c5:#c81d4a;
+  }
+
+  /* ===================== FOR HER — soft / radiant ===================== */
+  body.theme-bloom{
+    --bg:#fff6f4; --panel:#ffffff; --panel2:#fdece7; --border:#f5d2c6;
+    --text:#4a2a24; --muted:#b3806f; --accent:#ff5d8f; --accent2:#e0a940;
+    --done:#ff5d8f; --done-glow:rgba(255,93,143,.3);
+    --c1:#ff5d8f; --c2:#e0a940; --c3:#ff8fab; --c4:#f2c14e; --c5:#ffb3c6;
+  }
+  body.theme-ocean{
+    --bg:#f0faff; --panel:#ffffff; --panel2:#e4f5fb; --border:#c3e6f2;
+    --text:#0f3d44; --muted:#5f96a3; --accent:#14b8a6; --accent2:#38bdf8;
+    --done:#14b8a6; --done-glow:rgba(20,184,166,.3);
+    --c1:#14b8a6; --c2:#38bdf8; --c3:#5eead4; --c4:#7dd3fc; --c5:#2dd4bf;
+  }
+  body.theme-peach{
+    --bg:#fff8f2; --panel:#ffffff; --panel2:#ffece0; --border:#f7d5bd;
+    --text:#4a2f22; --muted:#b3826a; --accent:#ff8a5c; --accent2:#ffc857;
+    --done:#ff8a5c; --done-glow:rgba(255,138,92,.3);
+    --c1:#ff8a5c; --c2:#ffc857; --c3:#ffab91; --c4:#ffd98e; --c5:#ff7043;
+  }
+  body.theme-lavender{
+    --bg:#f8f5fd; --panel:#ffffff; --panel2:#f1ebfa; --border:#ded1f0;
+    --text:#3c2f52; --muted:#8f7ba8; --accent:#9161e0; --accent2:#5fb8c9;
+    --done:#9161e0; --done-glow:rgba(145,97,224,.3);
+    --c1:#9161e0; --c2:#5fb8c9; --c3:#b18aef; --c4:#7ec8d6; --c5:#c9a6ff;
+  }
+  body.theme-goldenglow{
+    --bg:#fdfaf3; --panel:#ffffff; --panel2:#faf1dc; --border:#ecdcae;
+    --text:#4a3c1e; --muted:#b3985f; --accent:#cc9a2e; --accent2:#e0b84a;
+    --done:#cc9a2e; --done-glow:rgba(204,154,46,.3);
+    --c1:#cc9a2e; --c2:#e0b84a; --c3:#f0d27a; --c4:#b8860b; --c5:#f2c14e;
+  }
+
+  /* ===================== NEUTRAL — balanced ===================== */
+  body.theme-focus{
+    --bg:#f5f1e8; --panel:#fffdf8; --panel2:#eee6d3; --border:#ddd0ac;
+    --text:#2b2a20; --muted:#7a7458; --accent:#5f7a5a; --accent2:#c9a227;
+    --done:#5f7a5a; --done-glow:rgba(95,122,90,.3);
+    --c1:#5f7a5a; --c2:#c9a227; --c3:#8aa583; --c4:#dbb84d; --c5:#3f5a3c;
+  }
+  body.theme-slate{
+    --bg:#0d0f12; --panel:#15181d; --panel2:#1b1f26; --border:#2b313b;
+    --text:#e6e9ee; --muted:#8b93a3; --accent:#7c8ba3; --accent2:#c6a664;
+    --done:#7c8ba3; --done-glow:rgba(124,139,163,.35);
+    --c1:#7c8ba3; --c2:#c6a664; --c3:#9aa8bd; --c4:#e0c48f; --c5:#5b6b85;
+  }
+
+  *{box-sizing:border-box;}
+  html{height:100%;}
+  body{
+    margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+    transition:background .3s,color .3s;
+    position:relative; overflow-x:hidden;
+  }
+  /* macOS-style soft blurred color orbs sitting behind the glass panels */
+  body::before, body::after{
+    content:''; position:fixed; z-index:0; border-radius:50%; pointer-events:none;
+    filter:blur(90px); opacity:.35;
+  }
+  body::before{
+    width:52vw; height:52vw; max-width:760px; max-height:760px;
+    top:-18vw; left:-14vw;
+    background:radial-gradient(circle,var(--accent),transparent 70%);
+  }
+  body::after{
+    width:46vw; height:46vw; max-width:680px; max-height:680px;
+    bottom:-16vw; right:-10vw;
+    background:radial-gradient(circle,var(--accent2),transparent 70%);
+  }
+  /* Anime motif layer — a subtle, theme-specific pattern so each series is recognizable at a glance */
+  .theme-pattern{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0;}
+  /* Solo Leveling — drifting shadow-monarch wisps rising like summoned soldiers */
+  body.theme-sololeveling .theme-pattern{
+    opacity:.5; filter:blur(60px);
+    background:
+      radial-gradient(circle at 15% 25%, var(--accent) 0, transparent 30%),
+      radial-gradient(circle at 85% 20%, var(--accent2) 0, transparent 25%),
+      radial-gradient(circle at 50% 85%, var(--accent) 0, transparent 30%);
+  }
+  /* Naruto — spinning shuriken/spiral pinwheel echoing the Uzumaki swirl and chakra spin */
+  body.theme-naruto .theme-pattern{
+    opacity:.16;
+    background-image: repeating-conic-gradient(from 0deg at 50% 50%, var(--accent) 0deg 4deg, transparent 4deg 45deg);
+    background-size:220px 220px;
+    background-position: -40px -40px, 60% 70%;
+  }
+  /* One Piece — rolling diagonal wave lines, the sea road to the Grand Line */
+  body.theme-onepiece .theme-pattern{
+    opacity:.14;
+    background-image: repeating-linear-gradient(135deg, var(--accent3, var(--c3)) 0 2px, transparent 2px 46px);
+  }
+  /* Demon Slayer — checkerboard haori weave, steady and disciplined like a breathing technique */
+  body.theme-demonslayer .theme-pattern{
+    opacity:.13;
+    background-image: repeating-conic-gradient(var(--accent) 0% 25%, transparent 0% 50%);
+    background-size:38px 38px;
+  }
+
+  /* ---- Cinematic ambience for anime themes: bigger glow orbs + vignette + emblem crest + neon UI ---- */
+  body.theme-sololeveling::before, body.theme-sololeveling::after,
+  body.theme-naruto::before, body.theme-naruto::after,
+  body.theme-onepiece::before, body.theme-onepiece::after,
+  body.theme-demonslayer::before, body.theme-demonslayer::after{
+    opacity:.55; filter:blur(110px);
+  }
+  .theme-vignette{position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0;}
+  body.theme-sololeveling .theme-vignette, body.theme-naruto .theme-vignette,
+  body.theme-onepiece .theme-vignette, body.theme-demonslayer .theme-vignette{
+    opacity:1;
+    background:radial-gradient(ellipse at 50% 40%, transparent 35%, rgba(0,0,0,.6) 100%);
+  }
+  /* Glowing corner emblem — a big, low-opacity crest that instantly signals which series this is */
+  .anime-crest{
+    position:fixed; top:-40px; right:-40px; width:280px; height:280px; z-index:0;
+    pointer-events:none; opacity:0; filter:blur(.3px);
+  }
+  .anime-crest svg{width:100%; height:100%;}
+  body.theme-sololeveling .anime-crest{opacity:.22;}
+  body.theme-naruto .anime-crest{opacity:.20;}
+  body.theme-onepiece .anime-crest{opacity:.20;}
+  body.theme-demonslayer .anime-crest{opacity:.20;}
+  @media(max-width:640px){ .anime-crest{width:180px; height:180px; top:-24px; right:-24px;} }
+
+  /* User-uploaded character art layer — sits behind everything; when present, it takes over from the
+     CSS crest/pattern fallback so the real artwork is what you see. */
+  .theme-bg-image{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-size:cover; background-position:center; opacity:0;
+    transition:opacity .3s;
+  }
+  body.has-bg-image .theme-bg-image{opacity:1;}
+  body.has-bg-image .theme-pattern, body.has-bg-image .anime-crest{opacity:0 !important;}
+  body.has-bg-image .theme-vignette{
+    background:radial-gradient(ellipse at 50% 40%, rgba(0,0,0,.15) 30%, rgba(0,0,0,.72) 100%);
+    opacity:1;
+  }
+  /* Anime wallpaper backdrop tuning — the art stays recognizable up top while a deepening
+     gradient toward the bottom keeps the stats/grid content fully readable over it. */
+  body.theme-sololeveling.has-bg-image .theme-bg-image,
+  body.theme-naruto.has-bg-image .theme-bg-image,
+  body.theme-onepiece.has-bg-image .theme-bg-image,
+  body.theme-demonslayer.has-bg-image .theme-bg-image{
+    background-position:center 18%;
+    background-attachment:fixed;
+    filter:saturate(1.08) brightness(.8) contrast(1.03);
+  }
+  body.theme-sololeveling.has-bg-image .theme-vignette,
+  body.theme-naruto.has-bg-image .theme-vignette,
+  body.theme-onepiece.has-bg-image .theme-vignette,
+  body.theme-demonslayer.has-bg-image .theme-vignette{
+    background:
+      linear-gradient(180deg, rgba(5,4,8,.25) 0%, rgba(5,4,8,.5) 40%, rgba(5,4,8,.88) 100%),
+      radial-gradient(ellipse at 50% 30%, transparent 15%, rgba(5,4,8,.45) 100%);
+    opacity:1;
+  }
+  @media(max-width:640px){
+    body.theme-sololeveling.has-bg-image .theme-bg-image,
+    body.theme-naruto.has-bg-image .theme-bg-image,
+    body.theme-onepiece.has-bg-image .theme-bg-image,
+    body.theme-demonslayer.has-bg-image .theme-bg-image{
+      background-attachment:scroll; background-position:center 12%;
+    }
+  }
+  /* When a wallpaper is active (default anime art or a user upload), every interactive/content
+     surface — buttons, panels, chips, stat cards, the habit grid — goes fully opaque so the art
+     is completely hidden behind them. It stays visible everywhere else: header area, margins,
+     and the empty space between panels, where the glass elements used to let it bleed through. */
+  body.has-bg-image .pill-btn{
+    background:var(--panel2); backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  body.has-bg-image .pill-btn:hover{background:var(--border);}
+  body.has-bg-image .panel,
+  body.has-bg-image .stat-card,
+  body.has-bg-image .grid-wrap{
+    background:var(--panel); backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  body.has-bg-image .chip{
+    background:var(--panel2); backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+
+  /* Mode badge under the title — phone-theme-pack style caption ("Hunter Mode: ON") */
+  .anime-mode-badge{
+    display:none; align-items:center; gap:7px; margin-top:8px; padding:6px 14px;
+    border-radius:999px; font-size:12px; font-weight:700; letter-spacing:.03em;
+    border:1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    background:color-mix(in srgb, var(--accent) 14%, transparent);
+    color:var(--accent); width:fit-content;
+    box-shadow:0 0 16px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  body.theme-sololeveling .anime-mode-badge, body.theme-naruto .anime-mode-badge,
+  body.theme-onepiece .anime-mode-badge, body.theme-demonslayer .anime-mode-badge{ display:inline-flex; }
+
+  /* Neon "game UI" panel + checkbox treatment for anime themes, echoing bordered app-icon tiles */
+  body.theme-sololeveling .panel, body.theme-naruto .panel, body.theme-onepiece .panel, body.theme-demonslayer .panel,
+  body.theme-sololeveling .stat-card, body.theme-naruto .stat-card, body.theme-onepiece .stat-card, body.theme-demonslayer .stat-card,
+  body.theme-sololeveling .grid-wrap, body.theme-naruto .grid-wrap, body.theme-onepiece .grid-wrap, body.theme-demonslayer .grid-wrap{
+    border-color:color-mix(in srgb, var(--accent) 38%, var(--border));
+    box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent), 0 10px 40px rgba(0,0,0,.45), inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  }
+  body.theme-sololeveling .check-cell .box, body.theme-naruto .check-cell .box,
+  body.theme-onepiece .check-cell .box, body.theme-demonslayer .check-cell .box{
+    border-radius:9px; border-width:2px;
+  }
+  body.theme-sololeveling .check-cell.done .box, body.theme-naruto .check-cell.done .box,
+  body.theme-onepiece .check-cell.done .box, body.theme-demonslayer .check-cell.done .box{
+    box-shadow:0 0 16px var(--done-glow), 0 0 3px var(--done-glow), inset 0 0 8px rgba(255,255,255,.15);
+  }
+  body.theme-sololeveling .pill-btn.vibe, body.theme-naruto .pill-btn.vibe,
+  body.theme-onepiece .pill-btn.vibe, body.theme-demonslayer .pill-btn.vibe{
+    box-shadow:0 0 14px color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  h1,h2,h3{font-family:var(--font-display); margin:0;}
+  .wrap{max-width:1440px; margin:0 auto; padding:28px clamp(16px,3.4vw,56px) 60px; position:relative; z-index:1;}
+
+  header.top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:20px; flex-wrap:wrap;}
+  .quote-block h1{
+    font-family:var(--font-display); font-size:34px; font-weight:900; font-style:normal;
+    letter-spacing:-.01em; line-height:1.15; max-width:600px; text-transform:uppercase;
+    background:linear-gradient(120deg,var(--text) 40%,var(--accent) 100%);
+    -webkit-background-clip:text; background-clip:text; color:var(--text);
+    -webkit-text-fill-color:transparent;
+  }
+  .quote-block .by{
+    font-family:var(--font-script); font-style:italic; font-weight:600;
+    font-size:28px; color:var(--accent); margin-top:2px; letter-spacing:.03em;
+    text-shadow:0 0 18px var(--done-glow);
+    display:inline-block; position:relative; padding-left:2px;
+  }
+  .quote-block .by::before{content:'— '; font-family:var(--font-body); font-style:normal; font-size:13px; color:var(--muted); letter-spacing:.04em; vertical-align:middle;}
+  @media(max-width:520px){
+    .quote-block h1{font-size:24px;}
+    .quote-block .by{font-size:20px;}
+  }
+  .quote-block{cursor:pointer; position:relative;}
+  .quote-block .editHint{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-top:4px; opacity:.7;}
+
+  /* ---- Title font options (applied to h1) ----
+     NOTE: !important is required here because the base ".quote-block h1" rule
+     (element+class = higher CSS specificity) would otherwise always win over
+     these single-class rules and silently override the chosen font. */
+  .tfont-display{font-family:'Playfair Display',Georgia,'Times New Roman',serif !important; font-weight:900 !important; text-transform:uppercase !important; letter-spacing:-.01em !important;}
+  .tfont-oswald{font-family:'Oswald','Arial Narrow',Arial,sans-serif !important; font-weight:700 !important; text-transform:uppercase !important; letter-spacing:-.01em !important;}
+  .tfont-montserrat{font-family:'Montserrat','Helvetica Neue',Arial,sans-serif !important; font-weight:800 !important; text-transform:none !important; letter-spacing:normal !important;}
+  .tfont-cinzel{font-family:'Cinzel','Times New Roman',serif !important; font-weight:700 !important; letter-spacing:.03em !important; text-transform:none !important;}
+  .tfont-anton{font-family:'Anton','Arial Black',Arial,sans-serif !important; font-weight:900 !important; letter-spacing:.01em !important; text-transform:uppercase !important;}
+  .tfont-bebas{font-family:'Bebas Neue','Arial Narrow',sans-serif !important; letter-spacing:.05em !important; font-weight:400 !important; text-transform:uppercase !important;}
+  .tfont-orbitron{font-family:'Orbitron','Courier New',monospace !important; letter-spacing:.04em !important; font-weight:700 !important; text-transform:uppercase !important;}
+  .tfont-bungee{font-family:'Bungee','Impact',fantasy !important; letter-spacing:.02em !important; font-weight:400 !important; text-transform:uppercase !important;}
+  .tfont-righteous{font-family:'Righteous','Comic Sans MS',cursive !important; font-weight:400 !important; text-transform:none !important; letter-spacing:normal !important;}
+  .tfont-poppins{font-family:'Poppins','Trebuchet MS',sans-serif !important; font-weight:700 !important; text-transform:none !important; letter-spacing:normal !important;}
+
+  /* ---- "Vara" name font options ----
+     Same specificity issue as above: ".quote-block .by" (two classes) beats
+     these single-class rules, so font AND color/text-shadow both need !important. */
+  .nfont-script{font-family:'Cormorant Garamond',Georgia,serif !important; font-style:italic !important; text-transform:none !important; letter-spacing:.03em !important;}
+  .nfont-dancing{font-family:'Dancing Script','Segoe Script','Comic Sans MS',cursive !important; font-style:normal !important; font-weight:600 !important; text-transform:none !important; letter-spacing:normal !important;}
+  .nfont-vibes{font-family:'Great Vibes','Brush Script MT',cursive !important; font-style:italic !important; text-transform:none !important; letter-spacing:normal !important;}
+  .nfont-pacifico{font-family:'Pacifico','Segoe Print','Comic Sans MS',cursive !important; font-style:normal !important; text-transform:none !important; letter-spacing:normal !important;}
+  .nfont-orbitron{font-family:'Orbitron','Courier New',monospace !important; font-style:normal !important; letter-spacing:.05em !important; text-transform:none !important;}
+  .nfont-bebas{font-family:'Bebas Neue','Arial Narrow',sans-serif !important; font-style:normal !important; letter-spacing:.06em !important; text-transform:uppercase !important;}
+  .nfont-cinzel{font-family:'Cinzel','Times New Roman',serif !important; font-style:normal !important; letter-spacing:.02em !important; text-transform:none !important;}
+  .nfont-anton{font-family:'Anton','Arial Black',sans-serif !important; font-style:normal !important; text-transform:uppercase !important; letter-spacing:normal !important;}
+
+  /* ---- Cinematic effects for "Vara" ---- */
+  @keyframes varaShimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+  @keyframes varaPulse{0%,100%{text-shadow:0 0 10px var(--accent),0 0 22px var(--done-glow);}50%{text-shadow:0 0 22px var(--accent),0 0 40px var(--done-glow);}}
+  @keyframes varaGlitch{
+    0%,100%{clip-path:inset(0 0 0 0); transform:translate(0,0);}
+    20%{clip-path:inset(10% 0 60% 0); transform:translate(-2px,1px);}
+    40%{clip-path:inset(60% 0 5% 0); transform:translate(2px,-1px);}
+    60%{clip-path:inset(30% 0 40% 0); transform:translate(-1px,0);}
+    80%{clip-path:inset(5% 0 70% 0); transform:translate(1px,1px);}
+  }
+  @keyframes varaFlicker{0%,19%,21%,23%,80%,100%{opacity:1;}20%,22%,24%{opacity:.55;}}
+  .effect-gradient{
+    background:linear-gradient(90deg,var(--accent),var(--accent2),var(--accent));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent !important; color:transparent !important;
+    text-shadow:none !important;
+  }
+  .effect-neon{color:var(--accent) !important; text-shadow:0 0 8px var(--accent),0 0 18px var(--done-glow),0 0 34px var(--done-glow) !important; animation:varaPulse 2.4s ease-in-out infinite;}
+  .effect-shimmer{
+    background:linear-gradient(90deg,var(--muted) 0%,var(--text) 25%,var(--accent2) 50%,var(--text) 75%,var(--muted) 100%);
+    background-size:250% 100%;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent !important; color:transparent !important;
+    animation:varaShimmer 3.2s linear infinite; text-shadow:none !important;
+  }
+  .effect-fire{
+    background:linear-gradient(0deg,#ff3b1f 0%,#ff9500 45%,#ffce1f 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent !important; color:transparent !important;
+    text-shadow:0 0 14px rgba(255,120,20,.5) !important; animation:varaFlicker 2.6s infinite;
+  }
+  .effect-ice{
+    background:linear-gradient(180deg,#eaffff 0%,#7dd3fc 55%,#38bdf8 100%);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent !important; color:transparent !important;
+    text-shadow:0 0 16px rgba(125,211,252,.55) !important;
+  }
+  .effect-metal{
+    background:linear-gradient(120deg,#8b8b8b 0%,#f4f4f4 25%,#8b8b8b 50%,#f4f4f4 75%,#8b8b8b 100%);
+    background-size:250% 100%;
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent !important; color:transparent !important;
+    animation:varaShimmer 4s linear infinite; text-shadow:none !important;
+  }
+  .effect-glitch{position:relative; color:var(--accent) !important; text-shadow:2px 0 var(--accent2),-2px 0 var(--done) !important; animation:varaGlitch 3.5s infinite steps(1);}
+  .effect-plain{color:var(--accent) !important; text-shadow:0 0 18px var(--done-glow) !important;}
+
+  /* ---- Title customize modal ---- */
+  .font-preview-grid{display:flex; flex-direction:column; gap:6px; margin:8px 0 16px;}
+  .font-preview{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--panel2); border:2px solid var(--border); border-radius:12px; padding:10px 14px; cursor:pointer;
+  }
+  .font-preview.active{border-color:var(--accent);}
+  .font-preview .fp-label{font-size:20px; color:var(--text);}
+  .font-preview .fp-name{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; flex-shrink:0;}
+  .top-actions{display:flex; gap:8px; flex-shrink:0;}
+  .pill-btn{
+    background:color-mix(in srgb, var(--panel2) 65%, transparent); border:1px solid color-mix(in srgb, var(--text) 14%, transparent); color:var(--text);
+    padding:9px 14px; border-radius:999px; font-size:13px; cursor:pointer; font-weight:600;
+    display:flex; align-items:center; gap:6px; white-space:nowrap;
+    backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%);
+    transition:background .2s,border-color .2s,transform .15s;
+  }
+  .pill-btn:hover{background:color-mix(in srgb, var(--panel2) 85%, transparent); transform:translateY(-1px);}
+  .pill-btn.vibe{border-color:var(--accent);}
+
+  .panel{
+    background:color-mix(in srgb, var(--panel) 62%, transparent);
+    border:1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    border-radius:22px; padding:20px; margin-bottom:16px;
+    backdrop-filter:blur(26px) saturate(160%); -webkit-backdrop-filter:blur(26px) saturate(160%);
+    box-shadow:0 8px 32px rgba(0,0,0,.22), inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  }
+
+  /* setup row */
+  .setup-row{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; justify-content:space-between;}
+  .setup-left{display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;}
+  .field label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin-bottom:6px;}
+  input[type=date], input[type=text]{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:9px 10px; border-radius:8px; font-size:14px; font-family:var(--font-body);
+  }
+  input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+  .span-group{display:flex; gap:6px; background:var(--panel2); padding:4px; border-radius:999px; border:1px solid var(--border);}
+  .span-btn{background:transparent; border:none; color:var(--muted); padding:7px 13px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:600;}
+  .span-btn.active{background:var(--accent); color:#0b0b0b;}
+  button.primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0b0b0b; border:none;
+    padding:10px 18px; border-radius:999px; font-weight:700; cursor:pointer; font-size:14px; white-space:nowrap;
+  }
+  button:active{transform:scale(.97);}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .chip{
+    display:flex; align-items:center; gap:6px;
+    background:color-mix(in srgb, var(--panel2) 70%, transparent);
+    border:1px solid color-mix(in srgb, var(--text) 12%, transparent);
+    backdrop-filter:blur(14px) saturate(160%); -webkit-backdrop-filter:blur(14px) saturate(160%);
+    border-radius:999px; padding:6px 6px 6px 12px; font-size:13px;
+  }
+  .chip .rm{background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:2px 6px;}
+  .chip .rm:hover{color:var(--accent);}
+
+  /* stats */
+  .stats-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;}
+  @media(max-width:700px){.stats-strip{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{
+    background:color-mix(in srgb, var(--panel) 62%, transparent);
+    border:1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    border-radius:18px; padding:14px 16px;
+    backdrop-filter:blur(22px) saturate(160%); -webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:0 6px 24px rgba(0,0,0,.18), inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  }
+  .stat-card .icon-lbl{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;}
+  .stat-card .num{font-family:var(--font-display); font-size:28px; font-weight:800; color:var(--accent);}
+  .stat-card .num .unit{font-size:16px; color:var(--muted); font-weight:600;}
+
+  /* consistency chart */
+  .chart-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; flex-wrap:wrap; gap:8px;}
+  .chart-head h3{font-size:17px;}
+  .chart-head p{margin:2px 0 0; font-size:12px; color:var(--muted);}
+  .range-group{display:flex; gap:4px; background:var(--panel2); padding:4px; border-radius:999px; border:1px solid var(--border);}
+  .range-btn{background:transparent; border:none; color:var(--muted); padding:6px 12px; border-radius:999px; cursor:pointer; font-size:12px; font-weight:700;}
+  .range-btn.active{background:var(--accent); color:#0b0b0b;}
+
+  /* two col */
+  .two-col{display:grid; grid-template-columns:1.1fr .9fr; gap:16px;}
+  @media(max-width:820px){.two-col{grid-template-columns:1fr;}}
+
+  .weekday-bars{display:flex; align-items:flex-end; gap:10px; height:150px; margin-top:16px;}
+  .wbar-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .wbar{width:100%; border-radius:6px 6px 3px 3px; transition:height .3s;}
+  .wbar-val{font-size:11px; font-weight:700; margin-bottom:4px;}
+  .wbar-lbl{font-size:10px; color:var(--muted); margin-top:6px;}
+
+  /* weekly mini bar charts (below weekday pattern, fills remaining panel space) */
+  .weekly-charts-head{display:flex; align-items:baseline; justify-content:space-between; margin-top:18px; padding-top:14px; border-top:1px solid var(--border);}
+  .weekly-charts-head h4{font-size:13px; font-family:var(--font-body); font-weight:700; margin:0;}
+  .weekly-charts-head span{font-size:11px; color:var(--muted);}
+  .weekly-charts{display:flex; flex-direction:column; gap:14px; margin-top:12px;}
+  .week-chart-block{background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:10px 12px;}
+  .week-chart-title{display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:6px;}
+  .week-chart-title .avg{color:var(--accent); font-weight:800;}
+  .week-mini-bars{display:flex; align-items:flex-end; gap:5px; height:64px;}
+  .week-mini-col{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .week-mini-bar{width:100%; border-radius:4px 4px 2px 2px; transition:height .3s; min-height:3px;}
+  .week-mini-lbl{font-size:9px; color:var(--muted); margin-top:4px;}
+
+  .streak-list{display:flex; flex-direction:column; gap:8px; margin-top:14px;}
+  .streak-item{display:flex; align-items:center; justify-content:space-between; background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:9px 12px;}
+  .streak-item .left{display:flex; align-items:center; gap:10px;}
+  .streak-icon{width:32px;height:32px;border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:16px; background:var(--panel);}
+  .streak-name{font-size:14px; font-weight:700;}
+  .streak-best{font-size:11px; color:var(--muted);}
+  .streak-badge{background:var(--panel); border:1px solid var(--border); color:var(--accent); font-weight:800; font-size:12px; padding:5px 10px; border-radius:999px;}
+
+  .tophabit{display:flex; align-items:center; gap:10px; margin-top:12px;}
+  .tophabit .rank{width:18px; font-size:12px; color:var(--muted); flex-shrink:0;}
+  .reorder-btns{display:flex; flex-direction:column; gap:2px; flex-shrink:0;}
+  .reorder-btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--muted);
+    width:18px; height:15px; border-radius:4px; font-size:9px; line-height:1; cursor:pointer; padding:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .reorder-btn:hover:not(:disabled){color:var(--accent); border-color:var(--accent);}
+  .reorder-btn:disabled{opacity:.3; cursor:not-allowed;}
+  .tophabit .icon{width:26px;}
+  .tophabit .name{font-size:13px; font-weight:700; width:120px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .tophabit .bar-track{flex:1; background:var(--panel2); border-radius:999px; height:9px; overflow:hidden;}
+  .tophabit .bar-fill{height:100%; border-radius:999px;}
+  .tophabit .pct{width:38px; text-align:right; font-size:12px; font-weight:700; color:var(--muted); flex-shrink:0;}
+
+  /* grid */
+  .grid-wrap{
+    overflow-x:auto; border-radius:20px;
+    border:1px solid color-mix(in srgb, var(--text) 10%, transparent);
+    background:color-mix(in srgb, var(--panel) 62%, transparent);
+    backdrop-filter:blur(26px) saturate(160%); -webkit-backdrop-filter:blur(26px) saturate(160%);
+    box-shadow:0 8px 32px rgba(0,0,0,.22), inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
+  }
+  table{border-collapse:collapse; width:100%;}
+  th,td{border-bottom:1px solid var(--border); border-right:1px solid var(--border); text-align:center; padding:0;}
+  th.month-band{font-size:10px; font-weight:800; color:#0b0b0b; padding:6px 4px; letter-spacing:.05em; text-transform:uppercase;}
+  th.dow-col{background:var(--panel2); font-size:10px; color:var(--muted); font-weight:700; padding:5px 4px;}
+  th.act-col-head, td.act-col{
+    position:sticky; left:0; z-index:3; background:var(--panel2); text-align:left;
+    padding:9px 12px; font-size:13px; font-weight:700; min-width:190px; max-width:240px;
+    white-space:normal; overflow:visible; text-overflow:clip;
+    word-break:break-word; line-height:1.25;
+  }
+  td.act-col{display:flex; align-items:center; gap:6px;}
+  td.act-col span.name-txt{flex:1; min-width:0;}
+  th.act-col-head{z-index:4; position:sticky; top:0;}
+  td.act-col span.ic{flex-shrink:0;}
+  td.pct-col, th.pct-col{min-width:56px; font-size:12px; color:var(--muted); font-weight:800; background:var(--panel);}
+  .check-cell{cursor:pointer; min-width:38px; height:38px; padding:0;}
+  .check-cell .box{width:22px;height:22px;margin:0 auto;border-radius:6px;border:2px solid var(--border); display:flex;align-items:center;justify-content:center; transition:all .15s;}
+  .check-cell.done .box{background:var(--done); border-color:var(--done); box-shadow:0 0 10px var(--done-glow);}
+  .check-cell.done .box::after{content:"✓"; color:#0b0b0b; font-size:13px; font-weight:900;}
+  .check-cell.today .box{border-color:var(--accent); border-width:2px;}
+  .check-cell.locked{cursor:not-allowed;}
+  .check-cell.locked:not(.done) .box{opacity:.4;}
+  .check-cell.locked.done .box{box-shadow:none;}
+  .week-end{border-right:2px solid var(--accent) !important;}
+  .week-tint{background:var(--panel2);}
+  .week-tint.done .box{background:var(--done);}
+  tfoot td{background:var(--panel2); font-weight:800; font-size:12px; color:var(--accent);}
+
+  .empty-state{text-align:center; padding:44px 20px; color:var(--muted);}
+  .empty-state .big{font-family:var(--font-display); font-size:20px; color:var(--text); margin-bottom:6px;}
+
+  /* modal overlay (vibe + new habit) */
+  .overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.55); display:none;
+    align-items:center; justify-content:center; z-index:50; padding:16px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--bg); border:1px solid var(--border); border-radius:18px; padding:20px;
+    width:100%; max-width:480px; max-height:85vh; overflow-y:auto;
+  }
+  .modal-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;}
+  .modal-head h2{font-size:19px;}
+  .modal-head p{font-size:12px; color:var(--muted); margin:4px 0 0;}
+  .modal-close{background:none; border:none; color:var(--muted); font-size:18px; cursor:pointer;}
+
+  .vibe-group-label{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:14px 0 8px;}
+  .vibe-card{
+    display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:14px; border:2px solid transparent;
+    background:var(--panel2); cursor:pointer; margin-bottom:8px; position:relative;
+  }
+  .vibe-card.active{border-color:var(--accent);}
+  .vibe-dot{width:34px;height:34px;border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; background-size:cover; background-position:center;}
+  .vibe-info{flex:1; min-width:0;}
+  .vibe-title-row{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .vibe-title-row b{font-size:14px;}
+  .tag{font-size:10px; font-weight:800; padding:2px 8px; border-radius:999px; color:#fff; text-transform:uppercase;}
+  .vibe-desc{font-size:12px; color:var(--muted); margin-top:3px; line-height:1.4;}
+  .vibe-bg-controls{display:flex; gap:6px; margin-top:8px;}
+  .vibe-bg-btn{
+    font-size:10px; font-weight:700; padding:4px 9px; border-radius:999px; cursor:pointer;
+    border:1px solid var(--border); background:color-mix(in srgb, var(--panel) 70%, transparent); color:var(--muted);
+    display:inline-flex; align-items:center; gap:4px;
+  }
+  .vibe-bg-btn:hover{color:var(--text); border-color:var(--accent);}
+  .vibe-bg-btn.remove{color:var(--accent);}
+
+  .emoji-grid{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 14px;}
+  .emoji-opt{background:var(--panel2); border:2px solid var(--border); border-radius:10px; font-size:18px; padding:7px 9px; cursor:pointer;}
+  .emoji-opt.active{border-color:var(--accent);}
+
+  @media(max-width:480px){
+    .week-mini-lbl{font-size:8px;}
+    .week-mini-bars{height:52px; gap:3px;}
+    .tophabit .name{width:80px;}
+    header.top{flex-direction:column; align-items:stretch;}
+    .top-actions{justify-content:flex-start;}
+  }
+
+  footer.hint{text-align:center; font-size:11px; color:var(--muted); margin-top:18px;}
+  ::-webkit-scrollbar{height:10px; width:10px;}
+  ::-webkit-scrollbar-track{background:var(--panel);}
+  ::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+</style>
+</head>
+<body class="theme-adrenaline">
+<div class="theme-bg-image" id="themeBgImage" aria-hidden="true"></div>
+<div class="theme-pattern" aria-hidden="true"></div>
+<div class="theme-vignette" aria-hidden="true"></div>
+<div class="anime-crest" id="animeCrest" aria-hidden="true"></div>
+<input type="file" id="bgUploadInput" accept="image/*" style="display:none;">
+<div class="wrap">
+
+  <header class="top">
+    <div class="quote-block" id="titleClickArea" title="Click to customize title & style">
+      <h1 id="titleText">Track Life Like a Game</h1>
+      <div class="by" id="varaName">Vara</div>
+      <div class="editHint">✏️ tap to customize title & font</div>
+      <div class="anime-mode-badge" id="animeModeBadge"></div>
+    </div>
+    <div class="top-actions">
+      <span class="pill-btn" id="meBadge" style="cursor:default;">👤 —</span>
+      <button class="pill-btn" id="adminBtn">🛡️ Admin</button>
+      <button class="pill-btn" id="backupBtn" title="Save your progress to a file you can restore on any other browser or device">⬇️ Backup</button>
+      <button class="pill-btn" id="restoreBtn" title="Load progress from a backup file">⬆️ Restore</button>
+      <input type="file" id="restoreFile" accept="application/json" style="display:none;">
+      <button class="pill-btn" id="resetBtn">↺ Reset</button>
+      <button class="pill-btn vibe" id="vibeBtn">🎭 Vibe (Theme)</button>
+    </div>
+  </header>
+
+  <div class="panel" id="adminBanner" style="display:none; border-color:var(--accent); display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+    <div style="font-size:13px;">👁️ Admin view — you're viewing and managing <b id="adminBannerName"></b>'s habits.</div>
+    <button class="pill-btn" id="exitAdminViewBtn">← Back to my habits</button>
+  </div>
+
+  <div class="panel">
+    <div class="setup-row">
+      <div class="setup-left">
+        <div class="field">
+          <label for="startDate">Start</label>
+          <input type="date" id="startDate">
+        </div>
+        <div class="field">
+          <label>Span</label>
+          <div class="span-group" id="spanGroup">
+            <button class="span-btn" data-span="3">3 mo</button>
+            <button class="span-btn" data-span="6">6 mo</button>
+            <button class="span-btn" data-span="12">1 yr</button>
+            <button class="span-btn" data-span="24">2 yr</button>
+          </div>
+        </div>
+      </div>
+      <button class="primary" id="newHabitBtn">+ New habit</button>
+    </div>
+    <div class="chips" id="chipsWrap"></div>
+  </div>
+
+  <div class="stats-strip" id="statsStrip"></div>
+
+  <div class="panel">
+    <div class="chart-head">
+      <div>
+        <h3>Daily consistency</h3>
+        <p id="consistencySub">Share of habits completed each day</p>
+      </div>
+      <div class="range-group" id="rangeGroup">
+        <button class="range-btn" data-range="14">14D</button>
+        <button class="range-btn" data-range="30">30D</button>
+        <button class="range-btn" data-range="90">90D</button>
+      </div>
+    </div>
+    <div id="consistencyChart"></div>
+  </div>
+
+  <div id="gridArea"></div>
+
+  <div class="two-col">
+    <div class="panel">
+      <h3>Weekday pattern</h3>
+      <div class="weekday-bars" id="weekdayBars"></div>
+      <div class="weekly-charts-head">
+        <h4>Weekly breakdown</h4>
+        <span id="weeklyChartsMonthLbl"></span>
+      </div>
+      <div class="weekly-charts" id="weeklyCharts"></div>
+    </div>
+    <div class="panel">
+      <h3>Daily streaks</h3>
+      <div class="streak-list" id="streakList"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Top habits</h3>
+    <div id="topHabits"></div>
+  </div>
+
+  <footer class="hint">Only today's box can be checked — past and future days are locked to keep progress honest. Your data is saved automatically.</footer>
+</div>
+
+<!-- Vibe modal -->
+<div class="overlay" id="vibeOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Choose your vibe</h2>
+        <p>Personalize Vara for how you like to track.</p>
+      </div>
+      <button class="modal-close" id="vibeCloseBtn">✕</button>
+    </div>
+    <div class="vibe-group-label">For Him — Bold &amp; Energetic</div>
+    <div id="boyVibes"></div>
+    <div class="vibe-group-label">For Her — Soft &amp; Radiant</div>
+    <div id="girlVibes"></div>
+    <div class="vibe-group-label">Neutral — Balanced</div>
+    <div id="neutralVibes"></div>
+    <div class="vibe-group-label">Anime — For the Otaku</div>
+    <div id="animeVibes"></div>
+  </div>
+</div>
+
+<!-- Title customize modal -->
+<div class="overlay" id="titleOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Customize title</h2>
+        <p>Change your tagline and pick a font & cinematic style for "Vara". The word "Vara" itself can't be renamed — only its style.</p>
+      </div>
+      <button class="modal-close" id="titleCloseBtn">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="titleInput">Your tagline / title</label>
+      <input type="text" id="titleInput" placeholder="e.g. Track Life Like a Game" style="width:100%;">
+    </div>
+
+    <label style="font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin:6px 0 6px;">Tagline font</label>
+    <div class="font-preview-grid" id="titleFontGrid"></div>
+
+    <label style="font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin:6px 0 6px;">"Vara" font style</label>
+    <div class="font-preview-grid" id="varaFontGrid"></div>
+
+    <label style="font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin:6px 0 6px;">"Vara" cinematic effect</label>
+    <div class="font-preview-grid" id="varaEffectGrid"></div>
+
+    <button class="primary" id="titleSaveBtn" style="width:100%;margin-top:6px;">Save</button>
+  </div>
+</div>
+
+<!-- New habit modal -->
+<div class="overlay" id="habitOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>New habit</h2>
+        <p>Give it a name and pick an icon.</p>
+      </div>
+      <button class="modal-close" id="habitCloseBtn">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:4px;">
+      <label for="habitName">Name</label>
+      <input type="text" id="habitName" placeholder="e.g. Gym, Deep Work, No Sugar" style="width:100%;">
+    </div>
+    <label style="font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin:12px 0 6px;">Icon</label>
+    <div class="emoji-grid" id="emojiGrid"></div>
+    <button class="primary" id="confirmAddHabit" style="width:100%;">Add habit</button>
+  </div>
+</div>
+
+<!-- Onboarding modal -->
+<div class="overlay" id="onboardOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Welcome to Vara</h2>
+        <p>What should we call you? This is how your habits are saved and how the admin will see you listed.</p>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="onboardName">Your name</label>
+      <input type="text" id="onboardName" placeholder="e.g. Alex" style="width:100%;">
+    </div>
+    <button class="primary" id="onboardSubmitBtn" style="width:100%;">Start tracking</button>
+  </div>
+</div>
+
+<!-- Admin passcode modal -->
+<div class="overlay" id="passOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="passTitle">Admin passcode</h2>
+        <p id="passSub">Enter the admin passcode to open the dashboard.</p>
+      </div>
+      <button class="modal-close" id="passCloseBtn">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:10px;">
+      <input type="text" id="passInput" placeholder="Passcode" style="width:100%;">
+    </div>
+    <div id="passError" style="font-size:12px;color:var(--accent);margin-bottom:10px;display:none;">Incorrect passcode. Try again.</div>
+    <button class="primary" id="passSubmitBtn" style="width:100%;">Continue</button>
+  </div>
+</div>
+
+<!-- Admin dashboard modal -->
+<div class="overlay" id="dashOverlay">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-head">
+      <div>
+        <h2>Admin dashboard</h2>
+        <p>Everyone tracking with Vara, and their progress.</p>
+      </div>
+      <button class="modal-close" id="dashCloseBtn">✕</button>
+    </div>
+    <div id="dashList"></div>
+  </div>
+</div>
+
+<script>
+
+/* === STORAGE ===
+   If this page is running inside a host that already provides a real,
+   cross-device window.storage (e.g. opened as a Claude artifact), that
+   is used as-is so data syncs between devices/users.
+   Otherwise (opened as a plain .html file in any browser) we fall back
+   to a localStorage-backed polyfill — this still works fully, but data
+   only lives on that one device/browser, it will not sync to another
+   phone or PC automatically. */
+if (!window.storage) {
+  window.storage = {
+    async get(key) {
+      const val = localStorage.getItem(key);
+      return val !== null ? { value: val } : null;
+    },
+    async set(key, value) {
+      localStorage.setItem(key, value);
+      return true;
+    },
+    async delete(key) {
+      localStorage.removeItem(key);
+      return true;
+    },
+    async list(prefix) {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(prefix)) keys.push(k);
+      }
+      return { keys };
+    }
+  };
+}
+
+const BOY_VIBES = [
+  {id:'adrenaline', name:'Adrenaline', tag:'For him', tagColor:'#ff3b1f', dot:'#ff3b1f', desc:'Pure black with ember red and electric orange. Maximum adrenaline.'},
+  {id:'midnight', name:'Midnight', tag:'High energy', tagColor:'#3d7bff', dot:'#22d3ee', desc:'Deep space blue with electric cyan and violet. Focused night mode.'},
+  {id:'neon', name:'Neon Overdrive', tag:'For him', tagColor:'#ff00e5', dot:'#00e5ff', desc:'Blackout base with cyan and magenta neon. Built to jolt you awake.'},
+  {id:'bloodmoon', name:'Blood Moon', tag:'For him', tagColor:'#e0113d', dot:'#e0113d', desc:'Near-black crimson with violet undertones. Intense and relentless.'},
+  {id:'shadowops', name:'Shadow Ops', tag:'For him', tagColor:'#7fbf3f', dot:'#7fbf3f', desc:'Matte black and olive green. Tactical, disciplined, no excuses.'},
+];
+const GIRL_VIBES = [
+  {id:'bloom', name:'Bloom', tag:'For her', tagColor:'#ff5d8f', dot:'#ff5d8f', desc:'Soft blush canvas with vivid rose and warm gold. Bright and gentle.'},
+  {id:'ocean', name:'Ocean', tag:'Calm & cool', tagColor:'#38bdf8', dot:'#14b8a6', desc:'Crisp daylight with teal and sky blue. Fresh, focused and airy.'},
+  {id:'peach', name:'Peach Sunset', tag:'For her', tagColor:'#ff8a5c', dot:'#ff8a5c', desc:'Warm peach and coral with a golden glow. Cozy and radiant.'},
+  {id:'lavender', name:'Lavender Mist', tag:'For her', tagColor:'#9161e0', dot:'#9161e0', desc:'Soft lilac with dreamy teal accents. Calm, elegant, gentle focus.'},
+  {id:'goldenglow', name:'Golden Glow', tag:'For her', tagColor:'#cc9a2e', dot:'#cc9a2e', desc:'Champagne cream with warm gold. Refined and quietly confident.'},
+];
+const NEUTRAL_VIBES = [
+  {id:'focus', name:'Focus', tag:'Everyone', tagColor:'#5f7a5a', dot:'#5f7a5a', desc:'Calm warm-ink base with deep sage and gold. The balanced default.'},
+  {id:'slate', name:'Slate', tag:'Everyone', tagColor:'#7c8ba3', dot:'#7c8ba3', desc:'Cool graphite with soft steel-blue and brass accents. Understated focus.'},
+];
+const ANIME_VIBES = [
+  {id:'sololeveling', name:'Shadow Monarch', tag:'Solo Leveling', tagColor:'#8b5cf6', dot:'#8b5cf6', icon:'🌑', desc:"Void-black with rising violet shadow-energy. Arise from the weakest — grind in silence, level up alone."},
+  {id:'naruto', name:'Nindo Way', tag:'Naruto', tagColor:'#ff7b00', dot:'#ff7b00', icon:'🍥', desc:"Leaf-village blue against nine-tails orange chakra. Never go back on your word — that's your ninja way."},
+  {id:'onepiece', name:'Grand Line', tag:'One Piece', tagColor:'#ffc300', dot:'#1c3a63', icon:'👒', desc:'Deep ocean navy chasing straw-hat gold. Set sail, chase the horizon, become who you dream of being.'},
+  {id:'demonslayer', name:'Hinokami', tag:'Demon Slayer', tagColor:'#e0113d', dot:'#0f9b8e', icon:'🗡️', desc:'Checkered haori teal-black cut with blood-art red. Breathe steady, total concentration, one form at a time.'},
+];
+const ALL_VIBES = [...BOY_VIBES, ...GIRL_VIBES, ...NEUTRAL_VIBES, ...ANIME_VIBES];
+
+const TITLE_FONTS = [
+  {id:'display', name:'Playfair', cls:'tfont-display'},
+  {id:'oswald', name:'Oswald', cls:'tfont-oswald'},
+  {id:'montserrat', name:'Montserrat', cls:'tfont-montserrat'},
+  {id:'cinzel', name:'Cinzel', cls:'tfont-cinzel'},
+  {id:'anton', name:'Anton', cls:'tfont-anton'},
+  {id:'bebas', name:'Bebas Neue', cls:'tfont-bebas'},
+  {id:'orbitron', name:'Orbitron', cls:'tfont-orbitron'},
+  {id:'bungee', name:'Bungee', cls:'tfont-bungee'},
+  {id:'righteous', name:'Righteous', cls:'tfont-righteous'},
+  {id:'poppins', name:'Poppins', cls:'tfont-poppins'},
+];
+const VARA_FONTS = [
+  {id:'script', name:'Cormorant Script', cls:'nfont-script'},
+  {id:'dancing', name:'Dancing Script', cls:'nfont-dancing'},
+  {id:'vibes', name:'Great Vibes', cls:'nfont-vibes'},
+  {id:'pacifico', name:'Pacifico', cls:'nfont-pacifico'},
+  {id:'orbitron', name:'Orbitron', cls:'nfont-orbitron'},
+  {id:'bebas', name:'Bebas Neue', cls:'nfont-bebas'},
+  {id:'cinzel', name:'Cinzel', cls:'nfont-cinzel'},
+  {id:'anton', name:'Anton', cls:'nfont-anton'},
+];
+const VARA_EFFECTS = [
+  {id:'gradient', name:'Gradient Glow', cls:'effect-gradient'},
+  {id:'neon', name:'Neon Pulse', cls:'effect-neon'},
+  {id:'shimmer', name:'Shimmer Sweep', cls:'effect-shimmer'},
+  {id:'fire', name:'Fire', cls:'effect-fire'},
+  {id:'ice', name:'Ice', cls:'effect-ice'},
+  {id:'metal', name:'Metallic', cls:'effect-metal'},
+  {id:'glitch', name:'Glitch', cls:'effect-glitch'},
+  {id:'plain', name:'Plain Glow', cls:'effect-plain'},
+];
+
+const EMOJI_OPTIONS = [
+  '💪','📖','🧘','🥗','💧','🏃','🛌','❄️','🚭','🧠','🎯','✍️','🎨','🎵','☀️','🌙','💻','🧹','💊','🙏',
+  '🏋️','🚴','🏊','⚽','🧗','🥊','🤸','🧎','🍎','🥦','🚫🍭','🚫🍺','☕','📚','📝','🎓','💼','📞',
+  '🗣️','🌍','💰','📈','🛠️','🧴','🪥','🚿','🧦','🐶','🌱','🪴','🎮','📵','🕰️','🧵','🛏️','🚶','🧊'
+];
+
+let data = {
+  vibe:'adrenaline',
+  startDate:'',
+  span: 3, // months
+  activities:[], // {id,name,icon}
+  checks:{}, // "id|YYYY-MM-DD": true
+  titleText:'Track Life Like a Game',
+  titleFont:'display',
+  varaFont:'script',
+  varaEffect:'gradient',
+  bgImages:{} // {vibeId: base64 dataURL} — user-uploaded background art per theme
+};
+let selectedEmoji = EMOJI_OPTIONS[0];
+let consistencyRange = 30;
+
+/* ============ IDENTITY / MULTI-USER / ADMIN ============ */
+const ME_KEY = 'vara-me';                 // personal: {name, adminUnlocked}
+const PASSCODE_KEY = 'vara-passcode';     // shared: string
+const USER_PREFIX = 'vara-user:';         // shared: vara-user:{name} -> data blob
+
+let me = { name:'', adminUnlocked:false };
+let activeUser = '';                      // whose data is currently loaded/shown
+let viewingOther = false;                 // true when admin is viewing someone else
+
+function defaultUserData(){
+  return { vibe:'adrenaline', startDate:'', span:3, activities:[], checks:{},
+    titleText:'Track Life Like a Game', titleFont:'display', varaFont:'script', varaEffect:'gradient', bgImages:{} };
+}
+
+function defaultMe(){ return { name:'', adminUnlocked:false }; }
+async function loadMe(){
+  try{
+    const res = await window.storage.get(ME_KEY, false);
+    if(res && res.value) me = Object.assign(defaultMe(), JSON.parse(res.value));
+  }catch(e){ /* first run */ }
+}
+async function saveMe(){
+  try{ await window.storage.set(ME_KEY, JSON.stringify(me), false); }catch(e){ console.error(e); }
+}
+
+let saveTimer=null;
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(saveState,400); }
+async function saveState(){
+  try{ await window.storage.set(USER_PREFIX+activeUser, JSON.stringify(data), true); }catch(e){ console.error('Save failed',e); }
+}
+async function loadState(name){
+  const fresh = await fetchUserData(name);
+  Object.assign(data, fresh);
+}
+async function ensureUserExists(name){
+  try{
+    await window.storage.get(USER_PREFIX+name, true);
+  }catch(e){
+    await window.storage.set(USER_PREFIX+name, JSON.stringify(defaultUserData()), true);
+  }
+}
+async function listAllUsers(){
+  try{
+    const res = await window.storage.list(USER_PREFIX, true);
+    if(res && res.keys) return res.keys.map(k=>k.slice(USER_PREFIX.length));
+  }catch(e){ /* none yet */ }
+  return [];
+}
+async function fetchUserData(name){
+  try{
+    const res = await window.storage.get(USER_PREFIX+name, true);
+    if(res && res.value) return Object.assign(defaultUserData(), JSON.parse(res.value));
+  }catch(e){ /* missing */ }
+  return defaultUserData();
+}
+
+function uid(){ return 'h'+Math.random().toString(36).slice(2,9); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function fmtDate(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function parseDate(s){ return new Date(s+'T00:00:00'); }
+function todayStr(){ return fmtDate(new Date()); }
+function addMonths(d, m){ const nd=new Date(d); nd.setMonth(nd.getMonth()+m); return nd; }
+function dateRange(startStr, endStr){
+  const out=[]; let d=parseDate(startStr); const end=parseDate(endStr);
+  if(isNaN(d)||isNaN(end)||d>end) return out;
+  while(d<=end){ out.push(new Date(d)); d.setDate(d.getDate()+1); }
+  return out;
+}
+function computeEndDate(){
+  if(!data.startDate) return '';
+  return fmtDate(addMonths(parseDate(data.startDate), data.span));
+}
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+const MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DOW=['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+/* ---------------- ANIME THEME EXTRAS (crest emblem + mode badge) ---------------- */
+const ANIME_CRESTS = {
+  sololeveling: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="slGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <g filter="url(#slGlow)">
+      <path d="M18 92 Q60 58 102 92 Q60 126 18 92 Z" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <ellipse cx="60" cy="92" rx="6" ry="17" fill="var(--accent)"/>
+      <path d="M98 112 Q140 78 182 112 Q140 146 98 112 Z" fill="none" stroke="var(--accent2)" stroke-width="3"/>
+      <ellipse cx="140" cy="112" rx="6" ry="17" fill="var(--accent2)"/>
+    </g></svg>`,
+  naruto: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round">
+      <path d="M100 100 m0 -70 a70 70 0 1 1 -49.5 20.5"/>
+      <path d="M100 100 m0 -45 a45 45 0 1 0 31.8 13.2" stroke="var(--accent2)"/>
+      <path d="M100 100 m0 -20 a20 20 0 1 1 -14 5.8"/>
+    </g></svg>`,
+  onepiece: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="var(--accent)" stroke-width="6">
+      <circle cx="100" cy="88" r="55"/>
+      <circle cx="100" cy="88" r="13" fill="var(--accent)" stroke="none"/>
+      <line x1="100" y1="18" x2="100" y2="158"/>
+      <line x1="30" y1="88" x2="170" y2="88"/>
+      <line x1="51" y1="39" x2="149" y2="137"/>
+      <line x1="149" y1="39" x2="51" y2="137"/>
+    </g>
+    <path d="M15 178 Q50 160 85 178 T155 178 T195 178" fill="none" stroke="var(--accent2)" stroke-width="5" stroke-linecap="round"/>
+  </svg>`,
+  demonslayer: `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="var(--accent)" stroke-width="7" stroke-linecap="round" fill="none">
+      <line x1="28" y1="172" x2="172" y2="28"/>
+      <line x1="28" y1="28" x2="172" y2="172"/>
+    </g>
+    <circle cx="28" cy="172" r="7" fill="var(--accent2)"/>
+    <circle cx="172" cy="28" r="7" fill="var(--accent2)"/>
+    <circle cx="28" cy="28" r="7" fill="var(--accent2)"/>
+    <circle cx="172" cy="172" r="7" fill="var(--accent2)"/>
+  </svg>`
+};
+const ANIME_BADGES = {
+  sololeveling: '⚔️ Hunter Mode: ON',
+  naruto: '🍥 Nindo Mode: ON',
+  onepiece: '👒 Set Sail Mode: ON',
+  demonslayer: '🌊 Total Concentration: ON'
+};
+function applyAnimeExtras(){
+  const crest = document.getElementById('animeCrest');
+  const badge = document.getElementById('animeModeBadge');
+  const svg = ANIME_CRESTS[data.vibe];
+  crest.innerHTML = svg || '';
+  badge.textContent = ANIME_BADGES[data.vibe] || '';
+}
+// Built-in anime wallpapers — used automatically behind their matching theme unless the
+// user uploads their own character art (which always takes priority over these defaults).
+const ANIME_BG_DEFAULTS = {
+  sololeveling: 'https://4kwallpapers.com/images/wallpapers/sung-jinwoo-solo-leveling-3840x2160-14579.jpg', // Sung Jinwoo, 4K
+  naruto:       'https://4kwallpapers.com/images/wallpapers/itachi-uchiha-10k-3840x2160-25772.jpg',         // Itachi Uchiha, 4K
+  onepiece:     'https://4kwallpapers.com/images/wallpapers/monkey-d-luffy-one-3840x2160-10473.jpg',        // Monkey D. Luffy, 4K
+  demonslayer:  'https://4kwallpapers.com/images/walls/thumbs_2t/21206.jpg'
+};
+function applyBackgroundLayer(){
+  const layer = document.getElementById('themeBgImage');
+  const img = (data.bgImages||{})[data.vibe] || ANIME_BG_DEFAULTS[data.vibe];
+  if(img){
+    layer.style.backgroundImage = `url("${img}")`;
+    document.body.classList.add('has-bg-image');
+  } else {
+    layer.style.backgroundImage = '';
+    document.body.classList.remove('has-bg-image');
+  }
+}
+
+/* ---------------- THEME ---------------- */
+function applyTheme(){
+  document.body.className = 'theme-' + data.vibe;
+  applyAnimeExtras();
+  applyBackgroundLayer();
+}
+function renderVibeLists(){
+  const mk = (v)=>{
+    const el=document.createElement('div');
+    el.className='vibe-card'+(data.vibe===v.id?' active':'');
+    const customImg = (data.bgImages||{})[v.id];
+    const previewImg = customImg || ANIME_BG_DEFAULTS[v.id];
+    const dotStyle = previewImg ? `background-image:url("${previewImg}")` : `background:${v.dot};${v.icon?'font-size:16px;':''}`;
+    el.innerHTML = `<div class="vibe-dot" style="${dotStyle}">${previewImg?'':(v.icon||'')}</div>
+      <div class="vibe-info">
+        <div class="vibe-title-row"><b>${v.name}</b><span class="tag" style="background:${v.tagColor}">${v.tag}</span></div>
+        <div class="vibe-desc">${v.desc}</div>
+        <div class="vibe-bg-controls">
+          <button type="button" class="vibe-bg-btn upload-bg">🖼️ ${customImg?'Change art':(ANIME_BG_DEFAULTS[v.id]?'Replace with your own art':'Upload character art')}</button>
+          ${customImg?'<button type="button" class="vibe-bg-btn remove remove-bg">✕ Remove</button>':''}
+        </div>
+      </div>`;
+    el.onclick=()=>{ data.vibe=v.id; applyTheme(); renderVibeLists(); renderAll(); scheduleSave(); };
+    el.querySelector('.upload-bg').addEventListener('click', e=>{
+      e.stopPropagation();
+      window._bgUploadTarget = v.id;
+      document.getElementById('bgUploadInput').click();
+    });
+    const rmBtn = el.querySelector('.remove-bg');
+    if(rmBtn){
+      rmBtn.addEventListener('click', e=>{
+        e.stopPropagation();
+        delete data.bgImages[v.id];
+        if(data.vibe===v.id) applyBackgroundLayer();
+        renderVibeLists();
+        scheduleSave();
+      });
+    }
+    return el;
+  };
+  const boyWrap=document.getElementById('boyVibes'); boyWrap.innerHTML='';
+  BOY_VIBES.forEach(v=>boyWrap.appendChild(mk(v)));
+  const girlWrap=document.getElementById('girlVibes'); girlWrap.innerHTML='';
+  GIRL_VIBES.forEach(v=>girlWrap.appendChild(mk(v)));
+  const neutWrap=document.getElementById('neutralVibes'); neutWrap.innerHTML='';
+  NEUTRAL_VIBES.forEach(v=>neutWrap.appendChild(mk(v)));
+  const animeWrap=document.getElementById('animeVibes'); animeWrap.innerHTML='';
+  ANIME_VIBES.forEach(v=>animeWrap.appendChild(mk(v)));
+}
+document.getElementById('vibeBtn').onclick=()=>document.getElementById('vibeOverlay').classList.add('open');
+document.getElementById('vibeCloseBtn').onclick=()=>document.getElementById('vibeOverlay').classList.remove('open');
+document.getElementById('vibeOverlay').addEventListener('click', e=>{ if(e.target.id==='vibeOverlay') e.currentTarget.classList.remove('open'); });
+
+/* ---------------- CUSTOM BACKGROUND ART UPLOAD ---------------- */
+document.getElementById('bgUploadInput').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  const targetVibe = window._bgUploadTarget;
+  if(!file || !targetVibe){ e.target.value=''; return; }
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const imgEl = new Image();
+    imgEl.onload = function(){
+      const maxDim = 1000;
+      let w = imgEl.width, h = imgEl.height;
+      if(w>maxDim || h>maxDim){
+        const scale = maxDim/Math.max(w,h);
+        w = Math.round(w*scale); h = Math.round(h*scale);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(imgEl, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+      if(!data.bgImages) data.bgImages = {};
+      data.bgImages[targetVibe] = dataUrl;
+      if(data.vibe===targetVibe) applyBackgroundLayer();
+      renderVibeLists();
+      scheduleSave();
+      e.target.value='';
+      window._bgUploadTarget = null;
+    };
+    imgEl.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+/* ---------------- TITLE / NAME CUSTOMIZATION ---------------- */
+function applyTitleStyle(){
+  const h1 = document.getElementById('titleText');
+  const nm = document.getElementById('varaName');
+  h1.textContent = data.titleText || 'Track Life Like a Game';
+  const tf = TITLE_FONTS.find(f=>f.id===data.titleFont) || TITLE_FONTS[0];
+  h1.className = tf.cls;
+  const nf = VARA_FONTS.find(f=>f.id===data.varaFont) || VARA_FONTS[0];
+  const ef = VARA_EFFECTS.find(f=>f.id===data.varaEffect) || VARA_EFFECTS[0];
+  nm.className = 'by ' + nf.cls + ' ' + ef.cls;
+}
+// Live preview: apply straight to the on-page title/name using whatever is currently selected in the modal, before Save is clicked
+function applyLivePreview(){
+  const h1 = document.getElementById('titleText');
+  const nm = document.getElementById('varaName');
+  const liveText = document.getElementById('titleInput').value;
+  h1.textContent = (liveText && liveText.trim()) || 'Track Life Like a Game';
+  const tf = TITLE_FONTS.find(f=>f.id===_pendingTitleFont) || TITLE_FONTS[0];
+  h1.className = tf.cls;
+  const nf = VARA_FONTS.find(f=>f.id===_pendingVaraFont) || VARA_FONTS[0];
+  const ef = VARA_EFFECTS.find(f=>f.id===_pendingVaraEffect) || VARA_EFFECTS[0];
+  nm.className = 'by ' + nf.cls + ' ' + ef.cls;
+}
+
+let _pendingTitleFont, _pendingVaraFont, _pendingVaraEffect;
+function renderTitleModal(){
+  document.getElementById('titleInput').value = data.titleText || '';
+  _pendingTitleFont = data.titleFont;
+  _pendingVaraFont = data.varaFont;
+  _pendingVaraEffect = data.varaEffect;
+  renderFontGrids();
+}
+function renderFontGrids(){
+  const mkRow = (opt, groupId, current, sampleText, extraCls)=>{
+    const el = document.createElement('div');
+    el.className = 'font-preview' + (opt.id===current?' active':'');
+    el.innerHTML = `<span class="fp-label ${opt.cls} ${extraCls||''}">${escapeHtml(sampleText)}</span><span class="fp-name">${opt.name}</span>`;
+    el.onclick = ()=>{
+      if(groupId==='title') _pendingTitleFont = opt.id;
+      if(groupId==='varaFont') _pendingVaraFont = opt.id;
+      if(groupId==='varaEffect') _pendingVaraEffect = opt.id;
+      renderFontGrids();
+      applyLivePreview();
+    };
+    return el;
+  };
+
+  const tGrid = document.getElementById('titleFontGrid'); tGrid.innerHTML='';
+  TITLE_FONTS.forEach(f=> tGrid.appendChild(mkRow(f,'title',_pendingTitleFont,'Track Life Like a Game')));
+
+  const nGrid = document.getElementById('varaFontGrid'); nGrid.innerHTML='';
+  VARA_FONTS.forEach(f=> nGrid.appendChild(mkRow(f,'varaFont',_pendingVaraFont,'Vara')));
+
+  const eGrid = document.getElementById('varaEffectGrid'); eGrid.innerHTML='';
+  const activeFontCls = (VARA_FONTS.find(f=>f.id===_pendingVaraFont)||VARA_FONTS[0]).cls;
+  VARA_EFFECTS.forEach(ef=>{
+    const el = document.createElement('div');
+    el.className = 'font-preview' + (ef.id===_pendingVaraEffect?' active':'');
+    el.innerHTML = `<span class="fp-label ${activeFontCls} ${ef.cls}" style="font-size:24px;">Vara</span><span class="fp-name">${ef.name}</span>`;
+    el.onclick = ()=>{ _pendingVaraEffect = ef.id; renderFontGrids(); applyLivePreview(); };
+    eGrid.appendChild(el);
+  });
+}
+document.getElementById('titleClickArea').onclick = ()=>{
+  renderTitleModal();
+  document.getElementById('titleOverlay').classList.add('open');
+};
+document.getElementById('titleCloseBtn').onclick = ()=>{ applyTitleStyle(); document.getElementById('titleOverlay').classList.remove('open'); };
+document.getElementById('titleOverlay').addEventListener('click', e=>{ if(e.target.id==='titleOverlay'){ applyTitleStyle(); e.currentTarget.classList.remove('open'); } });
+document.getElementById('titleSaveBtn').onclick = ()=>{
+  const newText = document.getElementById('titleInput').value.trim();
+  data.titleText = newText || 'Track Life Like a Game';
+  data.titleFont = _pendingTitleFont;
+  data.varaFont = _pendingVaraFont;
+  data.varaEffect = _pendingVaraEffect;
+  applyTitleStyle();
+  document.getElementById('titleOverlay').classList.remove('open');
+  scheduleSave();
+};
+document.getElementById('titleInput').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('titleSaveBtn').click(); });
+document.getElementById('titleInput').addEventListener('input', applyLivePreview);
+
+
+/* ---------------- NEW HABIT MODAL ---------------- */
+function renderEmojiGrid(){
+  const grid=document.getElementById('emojiGrid'); grid.innerHTML='';
+  EMOJI_OPTIONS.forEach(e=>{
+    const b=document.createElement('button');
+    b.className='emoji-opt'+(e===selectedEmoji?' active':'');
+    b.textContent=e;
+    b.onclick=()=>{ selectedEmoji=e; renderEmojiGrid(); };
+    grid.appendChild(b);
+  });
+}
+document.getElementById('newHabitBtn').onclick=()=>{
+  document.getElementById('habitName').value='';
+  selectedEmoji=EMOJI_OPTIONS[data.activities.length % EMOJI_OPTIONS.length];
+  renderEmojiGrid();
+  document.getElementById('habitOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('habitName').focus(),50);
+};
+document.getElementById('habitCloseBtn').onclick=()=>document.getElementById('habitOverlay').classList.remove('open');
+document.getElementById('habitOverlay').addEventListener('click', e=>{ if(e.target.id==='habitOverlay') e.currentTarget.classList.remove('open'); });
+document.getElementById('habitName').addEventListener('keydown', e=>{ if(e.key==='Enter') confirmAddHabit(); });
+document.getElementById('confirmAddHabit').onclick=confirmAddHabit;
+function confirmAddHabit(){
+  const name=document.getElementById('habitName').value.trim();
+  if(!name) return;
+  data.activities.push({id:uid(), name, icon:selectedEmoji});
+  document.getElementById('habitOverlay').classList.remove('open');
+  renderAll(); scheduleSave();
+}
+
+// /* ---------------- CHIPS (activity list) ---------------- */
+function renderChips(){
+  const wrap=document.getElementById('chipsWrap'); wrap.innerHTML='';
+  if(data.activities.length===0){
+    wrap.innerHTML='<div style="font-size:13px;color:var(--muted);">No habits yet — click "+ New habit" to add your first one.</div>';
+    return;
+  }
+  data.activities.forEach(a=>{
+    const c=document.createElement('div'); c.className='chip';
+    // c.innerHTML=`<span>${a.icon} ${escapeHtml(a.name)}</span>`;
+    c.innerHTML=`<span style='cursor:pointer' onclick='window._rename("${a.id}")' title='Click to rename'>${a.icon} ${escapeHtml(a.name)} ✏️</span>`;
+    const rm=document.createElement('button'); rm.className='rm'; rm.textContent='✕';
+    // rm.onclick=()=>{
+    //   data.activities=data.activities.filter(x=>x.id!==a.id);
+    //   Object.keys(data.checks).forEach(k=>{ if(k.startsWith(a.id+'|')) delete data.checks[k]; });
+    //   renderAll(); scheduleSave();
+    // };
+    // rm.onclick=()=>{ if(!confirm(`Delete "${a.name}"? All progress will be lost.`)) return};
+
+    rm.onclick=()=>{ window._deleteId=a.id; document.getElementById("deleteHabitName").textContent=a.name;
+     document.getElementById("deleteOverlay").classList.add("open")};
+    c.appendChild(rm);
+    wrap.appendChild(c);
+  });
+}
+
+// let renameTargetId = null;
+
+// function renderChips(){
+//   const wrap=document.getElementById('chipsWrap'); wrap.innerHTML='';
+//   if(data.activities.length===0){
+//     wrap.innerHTML='<div style="font-size:13px;color:var(--muted);">No habits yet — click "+ New habit" to add your first one.</div>';
+//     return;
+//   }
+//   data.activities.forEach(a=>{
+//     const c=document.createElement('div'); c.className='chip';
+//     c.innerHTML=`<span style="cursor:pointer;" onclick="openRenameModal('${a.id}')" title="Click to rename">${a.icon} ${escapeHtml(a.name)} ✏️</span>`;
+//     const rm=document.createElement('button'); rm.className='rm'; rm.textContent='✕';
+//     rm.title='Delete this habit';
+//     rm.onclick=()=>{
+//       if(!confirm(`Delete "${a.name}"? This will remove all progress for this habit.`)) return;
+//       data.activities=data.activities.filter(x=>x.id!==a.id);
+//       Object.keys(data.checks).forEach(k=>{ if(k.startsWith(a.id+'|')) delete data.checks[k]; });
+//       renderAll(); scheduleSave();
+//     };
+//     c.appendChild(rm);
+//     wrap.appendChild(c);
+//   });
+// }
+
+// function openRenameModal(habitId) {
+//   const habit = data.activities.find(a => a.id === habitId);
+//   if (!habit) return;
+//   renameTargetId = habitId;
+//   document.getElementById('renameName').value = habit.name;
+//   document.getElementById('renameOverlay').classList.add('open');
+//   setTimeout(() => document.getElementById('renameName').focus(), 50);
+// }
+
+// function closeRenameModal() {
+//   document.getElementById('renameOverlay').classList.remove('open');
+//   renameTargetId = null;
+// }
+
+// function confirmRename() {
+//   const newName = document.getElementById('renameName').value.trim();
+//   if (!newName || !renameTargetId) return;
+//   const habit = data.activities.find(a => a.id === renameTargetId);
+//   if (habit) {
+//     habit.name = newName;
+//     renderAll();
+//     scheduleSave();
+//   }
+//   closeRenameModal();
+// }
+
+// document.getElementById('renameCloseBtn').onclick = closeRenameModal;
+// document.getElementById('confirmRenameBtn').onclick = confirmRename;
+// document.getElementById('renameName').addEventListener('keydown', e => {
+//   if (e.key === 'Enter') confirmRename();
+// });
+// document.getElementById('renameOverlay').addEventListener('click', e => {
+//   if (e.target.id === 'renameOverlay') closeRenameModal();
+// });
+
+/* ---------------- SPAN / DATE CONTROLS ---------------- */
+document.getElementById('startDate').addEventListener('change', e=>{
+  data.startDate=e.target.value; renderAll(); scheduleSave();
+});
+document.querySelectorAll('.span-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    data.span=parseInt(btn.dataset.span,10);
+    renderAll(); scheduleSave();
+  });
+});
+function syncSpanButtons(){
+  document.querySelectorAll('.span-btn').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.span,10)===data.span);
+  });
+}
+document.getElementById('resetBtn').onclick=async ()=>{
+  const who = viewingOther ? activeUser : 'your';
+  const label = viewingOther ? `${activeUser}'s` : 'your';
+  if(!confirm(`This will permanently clear ${label} habits, dates and progress. Continue?`)) return;
+  Object.assign(data, defaultUserData(), {vibe:data.vibe});
+  document.getElementById('startDate').value='';
+  renderAll(); await saveState();
+};
+
+/* ---------------- STATS / STREAK CALC ---------------- */
+function getDays(){ return dateRange(data.startDate, computeEndDate()); }
+function getElapsedDays(){
+  const days=getDays(); const t=todayStr();
+  return days.filter(d=>fmtDate(d)<=t);
+}
+function isDone(actId,ds){ return !!data.checks[actId+'|'+ds]; }
+
+function overallPerfectStreaks(){
+  const elapsed=getElapsedDays().map(fmtDate);
+  if(data.activities.length===0 || elapsed.length===0) return {current:0, longest:0};
+  let longest=0, run=0;
+  elapsed.forEach(ds=>{
+    const perfect = data.activities.every(a=>isDone(a.id,ds));
+    if(perfect){ run++; longest=Math.max(longest,run); } else { run=0; }
+  });
+  let current=0;
+  for(let i=elapsed.length-1;i>=0;i--){
+    const ds=elapsed[i];
+    const perfect=data.activities.every(a=>isDone(a.id,ds));
+    if(perfect) current++; else break;
+  }
+  return {current, longest};
+}
+function habitStreaks(actId){
+  const elapsed=getElapsedDays().map(fmtDate);
+  let longest=0, run=0;
+  elapsed.forEach(ds=>{
+    if(isDone(actId,ds)){ run++; longest=Math.max(longest,run); } else { run=0; }
+  });
+  let current=0;
+  for(let i=elapsed.length-1;i>=0;i--){
+    if(isDone(actId, elapsed[i])) current++; else break;
+  }
+  return {current, longest};
+}
+function overallConsistency(){
+  const elapsed=getElapsedDays().map(fmtDate);
+  const total=elapsed.length*data.activities.length;
+  if(total===0) return 0;
+  let done=0;
+  elapsed.forEach(ds=>data.activities.forEach(a=>{ if(isDone(a.id,ds)) done++; }));
+  return Math.round((done/total)*100);
+}
+function totalDone(){
+  return Object.values(data.checks).filter(Boolean).length;
+}
+
+/* ---------------- RENDER: STATS ---------------- */
+function renderStats(){
+  const strip=document.getElementById('statsStrip');
+  const {current, longest} = overallPerfectStreaks();
+  const cards=[
+    {icon:'🔥', lbl:'Current streak', num:current, unit:'d'},
+    {icon:'🏆', lbl:'Longest streak', num:longest, unit:'d'},
+    {icon:'🎯', lbl:'Consistency', num:overallConsistency(), unit:'%'},
+    {icon:'📅', lbl:'Total done', num:totalDone(), unit:''},
+  ];
+  strip.innerHTML = cards.map(c=>`
+    <div class="stat-card">
+      <div class="icon-lbl">${c.icon} ${c.lbl}</div>
+      <div class="num">${c.num}<span class="unit">${c.unit}</span></div>
+    </div>`).join('');
+}
+
+/* ---------------- RENDER: CONSISTENCY CHART (SVG) ---------------- */
+document.querySelectorAll('.range-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    consistencyRange=parseInt(btn.dataset.range,10);
+    renderConsistencyChart();
+    syncRangeButtons();
+  });
+});
+function syncRangeButtons(){
+  document.querySelectorAll('.range-btn').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.range,10)===consistencyRange);
+  });
+}
+function renderConsistencyChart(){
+  const el=document.getElementById('consistencyChart');
+  const sub=document.getElementById('consistencySub');
+  const elapsed=getElapsedDays();
+  if(elapsed.length===0 || data.activities.length===0){
+    el.innerHTML='<div style="font-size:13px;color:var(--muted);padding:20px 0;">No data yet for this period.</div>';
+    sub.textContent='Share of habits completed each day';
+    return;
+  }
+  const slice = elapsed.slice(-consistencyRange);
+  const values = slice.map(d=>{
+    const ds=fmtDate(d);
+    const doneCount = data.activities.filter(a=>isDone(a.id,ds)).length;
+    return Math.round((doneCount/data.activities.length)*100);
+  });
+  const avg = Math.round(values.reduce((a,b)=>a+b,0)/values.length);
+  if(elapsed.length < consistencyRange){
+    sub.textContent = `Only ${elapsed.length} day${elapsed.length===1?'':'s'} tracked so far — showing all of it (avg ${avg}%). ${consistencyRange}D view will fill in as more days pass.`;
+  } else {
+    sub.textContent = `Share of habits completed each day · avg ${avg}%`;
+  }
+
+  const W=1000, H=220, padL=34, padR=10, padT=16, padB=26;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const n=values.length;
+  const xStep = n>1 ? innerW/(n-1) : 0;
+  const pts = values.map((v,i)=>{
+    const x = padL + (n>1 ? i*xStep : innerW/2);
+    const y = padT + innerH - (v/100)*innerH;
+    return [x,y];
+  });
+  const linePath = pts.map((p,i)=> (i===0?'M':'L')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+  const areaPath = linePath + ` L${pts[pts.length-1][0].toFixed(1)},${padT+innerH} L${pts[0][0].toFixed(1)},${padT+innerH} Z`;
+
+  const gridLines=[0,25,50,75,100].map(v=>{
+    const y=padT+innerH-(v/100)*innerH;
+    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border)" stroke-dasharray="3,4" stroke-width="1"/>
+      <text x="${padL-8}" y="${y+4}" font-size="10" fill="var(--muted)" text-anchor="end">${v}%</text>`;
+  }).join('');
+
+  const firstLbl = `${slice[0].getDate()}/${slice[0].getMonth()+1}`;
+  const midLbl = n>2 ? `${slice[Math.floor(n/2)].getDate()}/${slice[Math.floor(n/2)].getMonth()+1}` : '';
+  const lastLbl = fmtDate(slice[n-1])===todayStr() ? 'Today' : `${slice[n-1].getDate()}/${slice[n-1].getMonth()+1}`;
+
+  // Dot marker on every day's point (small for mid-points, bigger + highlighted on peaks/troughs and today)
+  const maxV = Math.max(...values), minV = Math.min(...values);
+  const dots = pts.map((p,i)=>{
+    const v = values[i];
+    const isToday = fmtDate(slice[i])===todayStr();
+    const isPeak = v===maxV && maxV>minV;
+    const r = isToday ? 5 : (isPeak ? 4.5 : 3);
+    const fill = isToday ? 'var(--accent2)' : 'var(--accent)';
+    const ring = isPeak ? `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${r+3}" fill="none" stroke="var(--accent)" stroke-width="1.2" opacity="0.5"/>` : '';
+    return `${ring}<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${r}" fill="${fill}" stroke="var(--panel)" stroke-width="1.5"><title>${fmtDate(slice[i])}: ${v}%</title></circle>`;
+  }).join('');
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;">
+    <defs>
+      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${gridLines}
+    <path d="${areaPath}" fill="url(#areaGrad)"/>
+    <path d="${linePath}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+    ${dots}
+    <text x="${padL}" y="${H-6}" font-size="10" fill="var(--muted)">${firstLbl}</text>
+    <text x="${W/2}" y="${H-6}" font-size="10" fill="var(--muted)" text-anchor="middle">${midLbl}</text>
+    <text x="${W-padR}" y="${H-6}" font-size="10" fill="var(--muted)" text-anchor="end">${lastLbl}</text>
+  </svg>`;
+}
+
+/* ---------------- RENDER: WEEKDAY PATTERN ---------------- */
+function renderWeekdayPattern(){
+  const wrap=document.getElementById('weekdayBars');
+  const elapsed=getElapsedDays();
+  if(elapsed.length===0 || data.activities.length===0){
+    wrap.innerHTML='<div style="font-size:13px;color:var(--muted);">No data yet.</div>';
+    return;
+  }
+  const sums=[0,0,0,0,0,0,0], counts=[0,0,0,0,0,0,0];
+  elapsed.forEach(d=>{
+    const ds=fmtDate(d);
+    const doneCount=data.activities.filter(a=>isDone(a.id,ds)).length;
+    const pct=(doneCount/data.activities.length)*100;
+    sums[d.getDay()]+=pct; counts[d.getDay()]++;
+  });
+  const palette=['c1','c2','c3','c4','c5','c1','c2'];
+  wrap.innerHTML = sums.map((s,i)=>{
+    const avg = counts[i]? Math.round(s/counts[i]) : 0;
+    const color=`var(--${palette[i]})`;
+    return `<div class="wbar-col">
+      <div class="wbar-val" style="color:${color}">${avg}</div>
+      <div class="wbar" style="height:${Math.max(avg,3)}%;background:${color};"></div>
+      <div class="wbar-lbl">${DOW[i]}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------------- RENDER: WEEKLY MINI-CHARTS (all weeks of the running month) ---------------- */
+function getCurrentMonthWeeks(){
+  const now=new Date();
+  const year=now.getFullYear(), month=now.getMonth();
+  const first=new Date(year,month,1);
+  const last=new Date(year,month+1,0);
+  const weeks=[]; let cur=new Date(first); let n=1;
+  while(cur<=last){
+    const start=new Date(cur);
+    const end=new Date(cur);
+    end.setDate(end.getDate() + (6 - start.getDay()));
+    if(end>last) end.setTime(last.getTime());
+    weeks.push({num:n, start, end});
+    n++;
+    cur=new Date(end); cur.setDate(cur.getDate()+1);
+  }
+  return weeks;
+}
+function renderWeeklyCharts(){
+  const wrap=document.getElementById('weeklyCharts');
+  const now=new Date();
+  document.getElementById('weeklyChartsMonthLbl').textContent = MONTH_NAMES[now.getMonth()]+' '+now.getFullYear();
+  if(data.activities.length===0){
+    wrap.innerHTML='<div style="font-size:13px;color:var(--muted);">Add a habit to see weekly charts.</div>';
+    return;
+  }
+  const elapsedSet = new Set(getElapsedDays().map(fmtDate));
+  const today = todayStr();
+  const weeks = getCurrentMonthWeeks();
+  const palette=['c1','c2','c3','c4','c5'];
+
+  wrap.innerHTML = weeks.map((w,wi)=>{
+    const days=[]; let d=new Date(w.start);
+    while(d<=w.end){ days.push(new Date(d)); d.setDate(d.getDate()+1); }
+
+    let sum=0, count=0;
+    const cols = days.map(dd=>{
+      const ds=fmtDate(dd);
+      let pct=null;
+      if(elapsedSet.has(ds)){
+        const doneCount = data.activities.filter(a=>isDone(a.id,ds)).length;
+        pct = Math.round((doneCount/data.activities.length)*100);
+        sum += pct; count++;
+      }
+      const isToday = ds===today;
+      const h = pct===null ? 4 : Math.max(pct,4);
+      const color = pct===null ? 'var(--border)' : `var(--${palette[wi%5]})`;
+      return `<div class="week-mini-col">
+        <div class="week-mini-bar" style="height:${h}%;background:${color};${isToday?'box-shadow:0 0 0 2px var(--accent);':''}"></div>
+        <div class="week-mini-lbl">${dd.getDate()}</div>
+      </div>`;
+    }).join('');
+    const avg = count ? Math.round(sum/count) : null;
+
+    return `<div class="week-chart-block">
+      <div class="week-chart-title">
+        <span>Week ${w.num} · ${w.start.getDate()}–${w.end.getDate()}</span>
+        <span class="avg">${avg===null?'—':avg+'%'}</span>
+      </div>
+      <div class="week-mini-bars">${cols}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------------- RENDER: DAILY STREAKS LIST ---------------- */
+function renderStreakList(){
+  const wrap=document.getElementById('streakList');
+  if(data.activities.length===0){
+    wrap.innerHTML='<div style="font-size:13px;color:var(--muted);">Add a habit to see streaks here.</div>';
+    return;
+  }
+  const rows = data.activities.map(a=>{
+    const {current, longest} = habitStreaks(a.id);
+    return {a, current, longest};
+  }).sort((x,y)=>y.current-x.current);
+  wrap.innerHTML = rows.map(r=>`
+    <div class="streak-item">
+      <div class="left">
+        <div class="streak-icon">${r.a.icon}</div>
+        <div>
+          <div class="streak-name">${escapeHtml(r.a.name)}</div>
+          <div class="streak-best">Best ${r.longest}d</div>
+        </div>
+      </div>
+      <div class="streak-badge">🔥 ${r.current}</div>
+    </div>`).join('');
+}
+
+/* ---------------- RENDER: TOP HABITS (custom order, reorderable) ---------------- */
+function moveHabit(idx, dir){
+  const newIdx = idx + dir;
+  if(newIdx < 0 || newIdx >= data.activities.length) return;
+  const arr = data.activities;
+  [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+  renderAll();
+  scheduleSave();
+}
+function renderTopHabits(){
+  const wrap=document.getElementById('topHabits');
+  const elapsed=getElapsedDays().map(fmtDate);
+  if(data.activities.length===0){
+    wrap.innerHTML='<div style="font-size:13px;color:var(--muted);margin-top:8px;">No data yet.</div>';
+    return;
+  }
+  const palette=['c1','c2','c3','c4','c5'];
+  const rows = data.activities.map((a,i)=>{
+    const done = elapsed.length ? elapsed.filter(ds=>isDone(a.id,ds)).length : 0;
+    const pct = elapsed.length ? Math.round((done/elapsed.length)*100) : 0;
+    return {a, pct, i};
+  });
+  wrap.innerHTML = rows.map((r,i)=>`
+    <div class="tophabit">
+      <div class="reorder-btns">
+        <button class="reorder-btn" data-move="${i}:-1" ${i===0?'disabled':''} title="Move up">▲</button>
+        <button class="reorder-btn" data-move="${i}:1" ${i===rows.length-1?'disabled':''} title="Move down">▼</button>
+      </div>
+      <div class="icon">${r.a.icon}</div>
+      <div class="name" title="${escapeHtml(r.a.name)}">${escapeHtml(r.a.name)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${r.pct}%;background:var(--${palette[i%5]});"></div></div>
+      <div class="pct">${r.pct}%</div>
+    </div>`).join('');
+  wrap.querySelectorAll('[data-move]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const [idx,dir] = btn.dataset.move.split(':').map(Number);
+      moveHabit(idx,dir);
+    });
+  });
+}
+
+/* ---------------- RENDER: GRID (monthly color banding) ---------------- */
+function renderGrid(){
+  const area=document.getElementById('gridArea');
+  const days=getDays();
+  if(days.length===0){
+    area.innerHTML=`<div class="panel empty-state"><div class="big">Set a start date</div>Pick a start date and span above, add a few habits, and your tracking grid appears here.</div>`;
+    return;
+  }
+  if(data.activities.length===0){
+    area.innerHTML=`<div class="panel empty-state"><div class="big">Add your first habit</div>Click "+ New habit" above to begin tracking.</div>`;
+    return;
+  }
+  const today=todayStr();
+  const palette=['c1','c2','c3','c4','c5'];
+
+  // group by month for color banding
+  const monthGroups=[]; // {key, label, colorVar, span}
+  days.forEach(d=>{
+    const key=d.getFullYear()+'-'+d.getMonth();
+    let g=monthGroups[monthGroups.length-1];
+    if(!g || g.key!==key){
+      g={key, label:MONTH_NAMES[d.getMonth()]+' '+d.getFullYear(), span:0, idx:monthGroups.length};
+      monthGroups.push(g);
+    }
+    g.span++;
+  });
+
+  let monthRow='<th class="act-col-head" rowspan="3">Habit</th>';
+  monthGroups.forEach(g=>{
+    monthRow += `<th class="month-band" colspan="${g.span}" style="background:var(--${palette[g.idx%5]});">${g.label}</th>`;
+  });
+  monthRow += '<th class="pct-col" rowspan="3">%</th>';
+
+  let dowRow='';
+  let dateRow='';
+  days.forEach(d=>{
+    const ds=fmtDate(d);
+    const weekEnd = d.getDay()===6; // Saturday = last day of week (weeks run Sun-Sat)
+    dowRow += `<th class="dow-col ${weekEnd?'week-end':''}">${DOW[d.getDay()]}</th>`;
+    dateRow += `<th class="dow-col ${weekEnd?'week-end':''}" style="${ds===today?'color:var(--accent);':''}">${d.getDate()}</th>`;
+  });
+
+  let bodyRows='';
+  data.activities.forEach(a=>{
+    let doneCount=0, cells='';
+    days.forEach(d=>{
+      const ds=fmtDate(d);
+      const done=isDone(a.id,ds);
+      if(done) doneCount++;
+      const locked = ds!==today;
+      const weekEnd = d.getDay()===6;
+      const weekIdx = Math.floor((d.getDate()-1+new Date(d.getFullYear(),d.getMonth(),1).getDay())/7);
+      cells += `<td class="check-cell ${done?'done':''} ${ds===today?'today':''} ${locked?'locked':''} ${weekEnd?'week-end':''} ${weekIdx%2===1?'week-tint':''}" data-key="${a.id}|${ds}" data-locked="${locked}" title="${locked?'Only today can be edited':'Tap to toggle'}"><div class="box"></div></td>`;
+    });
+    const pct=Math.round((doneCount/days.length)*100);
+    bodyRows += `<tr><td class="act-col" title="${escapeHtml(a.name)}"><span class="ic">${a.icon}</span><span class="name-txt">${escapeHtml(a.name)}</span></td>${cells}<td class="pct-col">${pct}%</td></tr>`;
+  });
+
+  let footCells='';
+  days.forEach(d=>{
+    const ds=fmtDate(d);
+    const doneCount=data.activities.filter(a=>isDone(a.id,ds)).length;
+    const dpct=Math.round((doneCount/data.activities.length)*100);
+    const weekEnd = d.getDay()===6;
+    footCells += `<td class="${weekEnd?'week-end':''}">${dpct}%</td>`;
+  });
+
+  area.innerHTML = `<div class="grid-wrap"><table>
+    <thead>
+      <tr>${monthRow}</tr>
+      <tr>${dowRow}</tr>
+      <tr>${dateRow}</tr>
+    </thead>
+    <tbody>${bodyRows}</tbody>
+    <tfoot><tr><td class="act-col">Daily %</td>${footCells}<td></td></tr></tfoot>
+  </table></div>`;
+
+  area.querySelectorAll('.check-cell').forEach(cell=>{
+    cell.addEventListener('click', ()=>{
+      if(cell.dataset.locked==='true') return;
+      const key=cell.dataset.key;
+      data.checks[key]=!data.checks[key];
+      renderAll();
+      scheduleSave();
+    });
+  });
+}
+
+/* ---------------- ONBOARDING ---------------- */
+function showOnboarding(){
+  document.getElementById('onboardOverlay').classList.add('open');
+}
+document.getElementById('onboardSubmitBtn').onclick = submitOnboarding;
+document.getElementById('onboardName').addEventListener('keydown', e=>{ if(e.key==='Enter') submitOnboarding(); });
+async function submitOnboarding(){
+  const name = document.getElementById('onboardName').value.trim();
+  if(!name) return;
+  me.name = name;
+  await saveMe();
+  await ensureUserExists(name);
+  activeUser = name;
+  document.getElementById('onboardOverlay').classList.remove('open');
+  await enterUser(activeUser, false);
+}
+
+function updateMeBadge(){
+  document.getElementById('meBadge').textContent = '👤 ' + (me.name || '—');
+}
+
+/* ---------------- ADMIN PASSCODE + DASHBOARD ---------------- */
+document.getElementById('adminBtn').onclick = onAdminBtnClick;
+document.getElementById('passCloseBtn').onclick = ()=>document.getElementById('passOverlay').classList.remove('open');
+document.getElementById('dashCloseBtn').onclick = ()=>document.getElementById('dashOverlay').classList.remove('open');
+document.getElementById('passOverlay').addEventListener('click', e=>{ if(e.target.id==='passOverlay') e.currentTarget.classList.remove('open'); });
+document.getElementById('dashOverlay').addEventListener('click', e=>{ if(e.target.id==='dashOverlay') e.currentTarget.classList.remove('open'); });
+
+async function onAdminBtnClick(){
+  if(me.adminUnlocked){ openDashboard(); return; }
+  let existingPasscode = null;
+  try{
+    const res = await window.storage.get(PASSCODE_KEY, true);
+    if(res && res.value) existingPasscode = res.value;
+  }catch(e){ existingPasscode = null; }
+
+  const passOverlay = document.getElementById('passOverlay');
+  const passTitle = document.getElementById('passTitle');
+  const passSub = document.getElementById('passSub');
+  const passInput = document.getElementById('passInput');
+  const passError = document.getElementById('passError');
+  passInput.value=''; passError.style.display='none';
+
+  if(!existingPasscode){
+    passTitle.textContent='Set an admin passcode';
+    passSub.textContent='No admin passcode exists yet. Set one now — you\'ll become the admin, and anyone else will need this passcode to unlock admin mode.';
+  } else {
+    passTitle.textContent='Admin passcode';
+    passSub.textContent='Enter the admin passcode to open the dashboard.';
+  }
+  passOverlay.classList.add('open');
+  setTimeout(()=>passInput.focus(),50);
+
+  document.getElementById('passSubmitBtn').onclick = async ()=>{
+    const val = passInput.value.trim();
+    if(!val) return;
+    if(!existingPasscode){
+      try{ await window.storage.set(PASSCODE_KEY, val, true); }catch(e){ console.error(e); }
+      me.adminUnlocked = true;
+      await saveMe();
+      passOverlay.classList.remove('open');
+      openDashboard();
+    } else if(val === existingPasscode){
+      me.adminUnlocked = true;
+      await saveMe();
+      passOverlay.classList.remove('open');
+      openDashboard();
+    } else {
+      passError.style.display='block';
+    }
+  };
+  passInput.onkeydown = e=>{ if(e.key==='Enter') document.getElementById('passSubmitBtn').click(); };
+}
+
+async function openDashboard(){
+  const dashOverlay = document.getElementById('dashOverlay');
+  const list = document.getElementById('dashList');
+  list.innerHTML = '<div style="font-size:13px;color:var(--muted);">Loading members…</div>';
+  dashOverlay.classList.add('open');
+
+  const names = await listAllUsers();
+  if(names.length===0){
+    list.innerHTML = '<div style="font-size:13px;color:var(--muted);">No one has started tracking yet.</div>';
+    return;
+  }
+  const rows = [];
+  for(const name of names){
+    const ud = await fetchUserData(name);
+    rows.push({name, ud, stats: computeStatsFor(ud)});
+  }
+  rows.sort((a,b)=>b.stats.consistency-a.stats.consistency);
+
+  list.innerHTML = rows.map(r=>`
+    <div class="streak-item" style="margin-bottom:8px;">
+      <div class="left">
+        <div class="streak-icon">👤</div>
+        <div>
+          <div class="streak-name">${escapeHtml(r.name)}${r.name===me.name?' (you)':''}</div>
+          <div class="streak-best">${r.ud.activities.length} habits · ${r.stats.consistency}% consistency · 🔥 ${r.stats.current}d streak</div>
+        </div>
+      </div>
+      <button class="pill-btn" data-open="${escapeHtml(r.name)}">View / Manage</button>
+    </div>`).join('');
+
+  list.querySelectorAll('[data-open]').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const name = btn.getAttribute('data-open');
+      dashOverlay.classList.remove('open');
+      activeUser = name;
+      viewingOther = (name !== me.name);
+      await enterUser(name, viewingOther);
+    });
+  });
+}
+
+// Lightweight stats calc used for the dashboard list (independent of the currently-loaded `data`)
+function computeStatsFor(ud){
+  const days = ud.startDate ? dateRange(ud.startDate, fmtDate(addMonths(parseDate(ud.startDate), ud.span))) : [];
+  const t = todayStr();
+  const elapsed = days.filter(d=>fmtDate(d)<=t).map(fmtDate);
+  if(elapsed.length===0 || ud.activities.length===0) return {consistency:0, current:0};
+  let done=0;
+  elapsed.forEach(ds=>ud.activities.forEach(a=>{ if(ud.checks[a.id+'|'+ds]) done++; }));
+  const consistency = Math.round((done/(elapsed.length*ud.activities.length))*100);
+  let current=0;
+  for(let i=elapsed.length-1;i>=0;i--){
+    const ds=elapsed[i];
+    const perfect = ud.activities.every(a=>ud.checks[a.id+'|'+ds]);
+    if(perfect) current++; else break;
+  }
+  return {consistency, current};
+}
+
+document.getElementById('exitAdminViewBtn').onclick = async ()=>{
+  viewingOther = false;
+  activeUser = me.name;
+  await enterUser(activeUser, false);
+};
+
+async function enterUser(name, isOther){
+  await loadState(name);
+  applyTheme();
+  applyTitleStyle();
+  renderVibeLists();
+  document.getElementById('startDate').value = data.startDate || '';
+  document.getElementById('adminBanner').style.display = isOther ? 'flex' : 'none';
+  document.getElementById('adminBannerName').textContent = name;
+  renderAll();
+}
+
+/* ---------------- MASTER RENDER ---------------- */
+function renderAll(){
+  syncSpanButtons();
+  syncRangeButtons();
+  renderChips();
+  renderStats();
+  renderConsistencyChart();
+  renderWeekdayPattern();
+  renderWeeklyCharts();
+  renderStreakList();
+  renderTopHabits();
+  renderGrid();
+}
+
+async function init(){
+  await loadMe();
+  updateMeBadge();
+  if(!me.name){
+    showOnboarding();
+    return;
+  }
+  activeUser = me.name;
+  await ensureUserExists(activeUser);
+  await enterUser(activeUser, false);
+}
+init();
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>{ applyTitleStyle(); });
+}
+
+/* ============ BACKUP / RESTORE ============
+   This tracker has no login and no cloud sync — each browser profile keeps its own
+   separate copy of your progress. Opening the same file under a different Chrome/Edge
+   profile (which is what happens when two different Google accounts are signed into
+   two different browser profiles) looks like "a different app" with no data, because
+   that profile has never saved anything locally yet. Backup/Restore lets you carry
+   your progress across profiles, browsers, or devices by hand. */
+document.getElementById('backupBtn').onclick = ()=>{
+  const payload = { __varaBackup:true, exportedAt:new Date().toISOString(), user:activeUser, data };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `vara-backup-${(activeUser||'me').replace(/[^a-z0-9-_]+/gi,'_')}-${todayStr()}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+};
+document.getElementById('restoreBtn').onclick = ()=>{
+  document.getElementById('restoreFile').click();
+};
+document.getElementById('restoreFile').onchange = async (e)=>{
+  const file = e.target.files[0];
+  e.target.value = '';
+  if(!file) return;
+  let parsed;
+  try{
+    const text = await file.text();
+    const raw = JSON.parse(text);
+    parsed = (raw && raw.__varaBackup) ? raw.data : raw;
+    if(!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.activities)){
+      throw new Error('not a Vara backup');
+    }
+  }catch(err){
+    alert("That doesn't look like a valid Vara backup file. Use a .json file created with the Backup button.");
+    return;
+  }
+  if(!confirm('This replaces the habits & progress currently shown on this device with the ones from the backup file. Continue?')) return;
+  data = Object.assign(defaultUserData(), parsed);
+  applyTheme();
+  applyTitleStyle();
+  renderVibeLists();
+  document.getElementById('startDate').value = data.startDate || '';
+  renderAll();
+  await saveState();
+  alert('Backup restored — your progress is now loaded here.');
+};
+
+
+/* ============ DELETE FEATURE ============ */
+window._deleteId = null;
+window._doDelete = function(){
+  const id = window._deleteId;
+  if(!id) return;
+  data.activities = data.activities.filter(x=>x.id!==id);
+  Object.keys(data.checks).forEach(k=>{ if(k.startsWith(id+'|')) delete data.checks[k]; });
+  document.getElementById('deleteOverlay').classList.remove('open');
+  window._deleteId = null;
+  renderAll();
+  scheduleSave();
+};
+
+/* ============ RENAME FEATURE ============ */
+window._renameId = null;
+window._rename = function(id) {
+  const habit = data.activities.find(a => a.id === id);
+  if (!habit) return;
+  window._renameId = id;
+  document.getElementById('renameName').value = habit.name;
+  document.getElementById('renameOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('renameName').focus(), 50);
+};
+window._doRename = function() {
+  const newName = document.getElementById('renameName').value.trim();
+  if (!newName || !window._renameId) return;
+  const habit = data.activities.find(a => a.id === window._renameId);
+  if (habit) {
+    habit.name = newName;
+    renderAll();
+    scheduleSave();
+  }
+  document.getElementById('renameOverlay').classList.remove('open');
+  window._renameId = null;
+};
+document.addEventListener('DOMContentLoaded', function(){
+  const renameNameEl = document.getElementById('renameName');
+  if(renameNameEl){
+    renameNameEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter') window._doRename();
+    });
+  }
+  const renameOverlayEl = document.getElementById('renameOverlay');
+  if(renameOverlayEl){
+    renameOverlayEl.addEventListener('click', e => {
+      if (e.target.id === 'renameOverlay') document.getElementById('renameOverlay').classList.remove('open');
+    });
+  }
+});
+
+
+</script>
+
+<!-- Rename habit modal
+<div class="overlay" id="renameOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Rename habit</h2>
+        <p>Change the name of this habit.</p>
+      </div>
+      <button class="modal-close" id="renameCloseBtn">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="renameName">New name</label>
+      <input type="text" id="renameName" placeholder="e.g. Morning Run" style="width:100%;">
+    </div>
+    <button class="primary" id="confirmRenameBtn" style="width:100%;">Save</button>
+  </div>
+</div> -->
+
+
+<!-- Rename modal -->
+<div class="overlay" id="renameOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h2>Rename habit</h2><p>Change the name of this habit.</p></div>
+      <button class="modal-close" onclick="document.getElementById('renameOverlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="field" style="margin-bottom:14px;">
+      <label for="renameName">New name</label>
+      <input type="text" id="renameName" placeholder="e.g. Morning Run" style="width:100%;">
+    </div>
+    <button class="primary" onclick="window._doRename()" style="width:100%;">Save</button>
+  </div>
+</div>
+
+
+<!-- Delete confirmation modal -->
+<div class="overlay" id="deleteOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2>Delete habit</h2>
+        <p>Are you sure you want to delete <b id="deleteHabitName"></b>?<br>This will remove all progress for this habit.</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:10px;">
+      <button class="primary" onclick="window._doDelete()" style="flex:1;">Delete</button>
+      <button class="pill-btn" onclick="document.getElementById('deleteOverlay').classList.remove('open')" style="flex:1;justify-content:center;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
